@@ -19,6 +19,4 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "teamproject-main"
 include(":app")
- 

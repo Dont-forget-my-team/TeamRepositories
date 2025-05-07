@@ -3,13 +3,10 @@ plugins {
 }
 
 android {
-    namespace = "com.example.teamproject_main"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.teamproject_main"
         minSdk = 24
-        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
