@@ -10,17 +10,24 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Teamprojectmain"
+        android:theme="@style/Theme.Gamepractice"
         tools:targetApi="31">
+
+        <!-- 로그인 액티비티를 앱의 시작점으로 설정 -->
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".LoginActivity"
+            android:exported="true"> <!-- Android 12 이상이면 exported 꼭 필요 -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 메인 액티비티는 로그인 후에 실행됨 -->
+        <activity android:name=".MainActivity" />
+        <activity android:name=".Login2Activity" />
+
+
     </application>
 
 </manifest>
