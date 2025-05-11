@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.Statistics" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/pastel_rainbow3</item>
+        <item name="colorPrimaryVariant">@color/pastel_rainbow4</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorSecondary">@color/pastel_rainbow5</item>
+        <item name="colorSecondaryVariant">@color/pastel_rainbow6</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+    </style>
+
+</resources>
