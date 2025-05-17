@@ -19,10 +19,8 @@ public class ImagePagerAdapter extends RecyclerView.Adapter<ImagePagerAdapter.Im
     @NonNull
     @Override
     public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
-        ImageView imageView = view.findViewById(android.R.id.text1); // simple_list_item_1의 TextView를 ImageView로 활용
-        imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP); // 이미지 비율 조정
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image, parent, false); // item_image.xml inflate
+        ImageView imageView = view.findViewById(R.id.imageView); // item_image.xml의 ImageView 찾기
         return new ImageViewHolder(imageView);
     }
 
