@@ -36,9 +36,9 @@ public class GameActivity extends AppCompatActivity {
 
         // 이미지 리스트 초기화 (res/drawable 폴더에 있는 이미지 리소스 ID)
         imageList = new ArrayList<>();
-        imageList.add(R.drawable.room_image_1); // 실제 이미지 리소스 ID로 변경
-        imageList.add(R.drawable.room_image_2); // 실제 이미지 리소스 ID로 변경
-        imageList.add(R.drawable.room_image_3); // 실제 이미지 리소스 ID로 변경
+        imageList.add(R.drawable.signal_9630065); // 실제 이미지 리소스 ID로 변경
+        imageList.add(R.drawable.signal_9630065); // 실제 이미지 리소스 ID로 변경
+        imageList.add(R.drawable.signal_9630065); // 실제 이미지 리소스 ID로 변경
         // ... 더 많은 이미지 추가 ...
 
         // 어댑터 생성 및 설정
