@@ -28,11 +28,11 @@ public class LoginActivity extends AppCompatActivity {
                 String email = editTextEmail.getText().toString();
                 String password = editTextPassword.getText().toString();
 
-                // 간단한 예시 로그인 로직 (하드코딩된 계정)
+                // 로그인 로직
                 if (email.equals("test@example.com") && password.equals("1234")) {
                     Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();
 
-                    // 다음 액티비티로 이동 (예: MainActivity)
+                    // login2로이동
                     Intent intent = new Intent(LoginActivity.this, Login2Activity.class);
                     startActivity(intent);
                     finish();
