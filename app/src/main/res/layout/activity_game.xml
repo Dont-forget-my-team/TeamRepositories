@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,17 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" >
-
-        <TextView
-            android:id="@+id/scoreTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="130dp"
-            android:text="300"
-            android:textSize="20sp" />
-    </androidx.viewpager2.widget.ViewPager2>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- starIcon -->
     <ImageView
@@ -39,12 +30,23 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- scoreTextView -->
+    <TextView
+        android:id="@+id/scoreTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="300"
+        android:textSize="20sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/starIcon"
+        app:layout_constraintEnd_toStartOf="@id/settingsIcon"
+        app:layout_constraintHorizontal_bias="0.5" />
 
-    <!-- settingsIcon도 바깥으로 빼줘야 함 -->
+    <!-- settingsIcon: 크기를 starIcon과 맞춤 -->
     <ImageView
         android:id="@+id/settingsIcon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="78dp"
+        android:layout_height="78dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/setting"
@@ -64,26 +66,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- prevButton -->
+    <!-- prevButton: house 왼쪽 -->
     <ImageView
         android:id="@+id/prevButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
         android:src="@android:drawable/ic_media_previous"
         app:layout_constraintBottom_toBottomOf="@id/houseTextView"
         app:layout_constraintTop_toTopOf="@id/houseTextView"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@id/houseTextView" />
 
-    <!-- nextButton -->
+    <!-- nextButton: house 오른쪽 -->
     <ImageView
         android:id="@+id/nextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
         android:src="@android:drawable/ic_media_next"
         app:layout_constraintBottom_toBottomOf="@id/houseTextView"
         app:layout_constraintTop_toTopOf="@id/houseTextView"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/houseTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
