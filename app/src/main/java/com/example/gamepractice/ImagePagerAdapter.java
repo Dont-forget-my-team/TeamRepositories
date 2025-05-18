@@ -1,5 +1,6 @@
 package com.example.gamepractice;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +12,18 @@ import java.util.List;
 public class ImagePagerAdapter extends RecyclerView.Adapter<ImagePagerAdapter.ImageViewHolder> {
 
     private List<Integer> imageList;
+    private Context context; // Context 추가
 
-    public ImagePagerAdapter(List<Integer> imageList) {
+    public ImagePagerAdapter(Context context, List<Integer> imageList) {
+        this.context = context;
         this.imageList = imageList;
     }
 
     @NonNull
     @Override
     public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image, parent, false); // item_image.xml inflate
-        ImageView imageView = view.findViewById(R.id.imageView); // item_image.xml의 ImageView 찾기
-        return new ImageViewHolder(imageView);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_image, parent, false); // item_image.xml inflate
+        return new ImageViewHolder(view);
     }
 
     @Override
@@ -37,9 +39,9 @@ public class ImagePagerAdapter extends RecyclerView.Adapter<ImagePagerAdapter.Im
     public static class ImageViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
 
-        public ImageViewHolder(@NonNull ImageView itemView) {
+        public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView;
+            imageView = itemView.findViewById(R.id.imageView); // item_image.xml의 ImageView 찾기
         }
     }
 }

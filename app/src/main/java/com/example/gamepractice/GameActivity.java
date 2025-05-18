@@ -14,7 +14,7 @@ public class GameActivity extends AppCompatActivity {
     private ImagePagerAdapter pagerAdapter;
     private List<Integer> imageList;
     private ImageView starIcon;
-    private TextView scoreTextView;
+    private TextView scoreTextView; // 추가
     private ImageView settingsIcon;
     private TextView houseTextView;
     private ImageView prevButton;
@@ -28,7 +28,7 @@ public class GameActivity extends AppCompatActivity {
         // UI 요소 초기화
         viewPager = findViewById(R.id.viewPager);
         starIcon = findViewById(R.id.starIcon);
-        scoreTextView = findViewById(R.id.scoreTextView);
+        scoreTextView = findViewById(R.id.scoreTextView); // 추가
         settingsIcon = findViewById(R.id.settingsIcon);
         houseTextView = findViewById(R.id.houseTextView);
         prevButton = findViewById(R.id.prevButton);
@@ -42,7 +42,7 @@ public class GameActivity extends AppCompatActivity {
         // ... 더 많은 이미지 추가 ...
 
         // 어댑터 생성 및 설정
-        pagerAdapter = new ImagePagerAdapter(imageList);
+        pagerAdapter = new ImagePagerAdapter(this, imageList); // this (Context) 전달
         viewPager.setAdapter(pagerAdapter);
 
         // 이전/다음 버튼 클릭 리스너 (선택 사항)

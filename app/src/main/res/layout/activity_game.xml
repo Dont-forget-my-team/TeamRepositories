@@ -1,29 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".GameActivity">
 
+    <!-- ViewPager2는 안에 아무것도 넣지 말기!! -->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="@color/softviolet"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintEnd_toEndOf="parent" >
 
-        <ImageView
-            android:id="@+id/starIcon"
-            android:layout_width="68dp"
-            android:layout_height="65dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="14dp"
-            android:src="@drawable/star_png_removebg" />
+        <TextView
+            android:id="@+id/scoreTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="130dp"
+            android:text="300"
+            android:textSize="20sp" />
     </androidx.viewpager2.widget.ViewPager2>
 
+    <!-- starIcon -->
+    <ImageView
+        android:id="@+id/starIcon"
+        android:layout_width="78dp"
+        android:layout_height="78dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/star_png_removebg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- scoreTextView -->
+
+    <!-- settingsIcon도 바깥으로 빼줘야 함 -->
     <ImageView
         android:id="@+id/settingsIcon"
         android:layout_width="48dp"
@@ -31,9 +48,10 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/setting"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- houseTextView -->
     <TextView
         android:id="@+id/houseTextView"
         android:layout_width="wrap_content"
@@ -43,27 +61,29 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- prevButton -->
     <ImageView
         android:id="@+id/prevButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:src="@android:drawable/ic_media_previous"
-        app:layout_constraintBottom_toBottomOf="@+id/houseTextView"
-        app:layout_constraintTop_toTopOf="@+id/houseTextView"
+        app:layout_constraintBottom_toBottomOf="@id/houseTextView"
+        app:layout_constraintTop_toTopOf="@id/houseTextView"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <!-- nextButton -->
     <ImageView
         android:id="@+id/nextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:src="@android:drawable/ic_media_next"
-        app:layout_constraintBottom_toBottomOf="@+id/houseTextView"
-        app:layout_constraintTop_toTopOf="@+id/houseTextView"
+        app:layout_constraintBottom_toBottomOf="@id/houseTextView"
+        app:layout_constraintTop_toTopOf="@id/houseTextView"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
