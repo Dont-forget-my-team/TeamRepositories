@@ -7,18 +7,14 @@
     android:layout_height="match_parent"
     tools:context=".GameActivity">
 
-    <!-- ViewPager2는 안에 아무것도 넣지 말기!! -->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/softviolet"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/starIcon" app:layout_constraintBottom_toTopOf="@+id/houseTextView" app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- starIcon -->
     <ImageView
         android:id="@+id/starIcon"
         android:layout_width="78dp"
@@ -29,20 +25,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- scoreTextView -->
-    <TextView
-        android:id="@+id/scoreTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="300"
-        android:textSize="20sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/starIcon"
-        app:layout_constraintEnd_toStartOf="@id/settingsIcon"
-        app:layout_constraintHorizontal_bias="0.5" />
-
-    <!-- settingsIcon: 크기를 starIcon과 맞춤 -->
     <ImageView
         android:id="@+id/settingsIcon"
         android:layout_width="78dp"
@@ -53,40 +35,50 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- houseTextView -->
+
+    <TextView
+        android:id="@+id/scoreTextview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="HOUSE"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/houseTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="HOUSE"
-        android:textSize="24sp"
+        android:textSize="48sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- prevButton: house 왼쪽 -->
     <ImageView
         android:id="@+id/prevButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="57dp"
+        android:layout_height="60dp"
         android:layout_marginEnd="8dp"
         android:src="@android:drawable/ic_media_previous"
         app:layout_constraintBottom_toBottomOf="@id/houseTextView"
-        app:layout_constraintTop_toTopOf="@id/houseTextView"
-        app:layout_constraintEnd_toStartOf="@id/houseTextView" />
+        app:layout_constraintEnd_toStartOf="@id/houseTextView"
+        app:layout_constraintTop_toTopOf="@id/houseTextView" />
 
-    <!-- nextButton: house 오른쪽 -->
     <ImageView
         android:id="@+id/nextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="62dp"
+        android:layout_height="54dp"
         android:layout_marginStart="8dp"
         android:src="@android:drawable/ic_media_next"
         app:layout_constraintBottom_toBottomOf="@id/houseTextView"
-        app:layout_constraintTop_toTopOf="@id/houseTextView"
-        app:layout_constraintStart_toEndOf="@id/houseTextView" />
+        app:layout_constraintStart_toEndOf="@id/houseTextView"
+        app:layout_constraintTop_toTopOf="@id/houseTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
