@@ -2,6 +2,7 @@ package com.example.calendar;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,27 +19,28 @@ import java.util.List;
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHolder> {
     private List<CalendarDate> dateList;
     private Context context;
-    private OnTransactionEnteredListener listener;
+    private OnDateClickListener listener;
 
-    public interface OnTransactionEnteredListener {
-        void onTransactionEntered(int position, String income, String expense);
+    public interface OnDateClickListener {
+        void onDateClicked(int position);
     }
 
-
-    public CalendarAdapter(List<CalendarDate> dateList, Context context, OnTransactionEnteredListener listener) {
+    public CalendarAdapter(List<CalendarDate> dateList, Context context, OnDateClickListener listener) {
         this.dateList = dateList;
         this.context = context;
         this.listener = listener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textDay, textExpense, textIncome;
+        TextView textDay, textExpense;//, textIncome;
+        View container;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            container = itemView;
             textDay = itemView.findViewById(R.id.textDay);
             textExpense = itemView.findViewById(R.id.textExpense);
-            textIncome = itemView.findViewById(R.id.textIncome);
+            //textIncome = itemView.findViewById(R.id.textIncome);
         }
     }
 
@@ -55,43 +57,33 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
 
         if (date.day == 0) {
             holder.textDay.setText("");
-            holder.textIncome.setText("");
             holder.textExpense.setText("");
+            //holder.textIncome.setText("");
+            holder.container.setBackgroundColor(Color.TRANSPARENT);
+            holder.itemView.setOnClickListener(null);
         } else {
             holder.textDay.setText(String.valueOf(date.day));
-            holder.textIncome.setText(date.income);
-            holder.textExpense.setText(date.expense);
+            //holder.textIncome.setText(date.income);
+            holder.textExpense.setText(date.getTotalExpenseString());
 
-            holder.itemView.setOnClickListener(v -> {
-                LinearLayout layout = new LinearLayout(context);
-                layout.setOrientation(LinearLayout.VERTICAL);
-                EditText inputIncome = new EditText(context);
-                inputIncome.setHint("수입 (예: 10000)");
-                inputIncome.setInputType(InputType.TYPE_CLASS_NUMBER);
-                layout.addView(inputIncome);
+            if (date.isSelected) {
+                holder.container.setBackgroundResource(R.drawable.selected_date_bg);
+            } else {
+                holder.container.setBackgroundColor(Color.TRANSPARENT);
+            }
 
-                EditText inputExpense = new EditText(context);
-                inputExpense.setHint("지출 (예: 5000)");
-                inputExpense.setInputType(InputType.TYPE_CLASS_NUMBER);
-                layout.addView(inputExpense);
-
-                new AlertDialog.Builder(context)
-                        .setTitle(date.day + "일 내역 입력")
-                        .setView(layout)
-                        .setPositiveButton("확인", (dialog, which) -> {
-                            String income = inputIncome.getText().toString();
-                            String expense = inputExpense.getText().toString();
-                            listener.onTransactionEntered(position,
-                                    income.isEmpty() ? "" : "+₩" + income,
-                                    expense.isEmpty() ? "" : "-₩" + expense);
-                        })
-                        .setNegativeButton("취소", null)
-                        .show();
-
-            });
+            holder.itemView.setOnClickListener(v -> listener.onDateClicked(position));
         }
 
-
+        if (!date.isCurrentMonth) {
+            holder.textDay.setAlpha(0.3f);
+            holder.textExpense.setAlpha(0.3f);
+            //holder.textIncome.setAlpha(0.3f);
+        } else {
+            holder.textDay.setAlpha(1f);
+            holder.textExpense.setAlpha(1f);
+            //holder.textIncome.setAlpha(1f);
+        }
     }
 
     @Override
