@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".CalendarMain">
 
     <TextView
         android:id="@+id/textTitle"
@@ -50,6 +50,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <Button
+        android:id="@+id/btnInputTransaction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="지출 입력"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/textSelectedDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="선택된 날짜: 없음"
+        android:textSize="16sp"
+        android:padding="8dp" />
+
+    <TextView
+        android:id="@+id/textExpenseDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="지출 내역: 없음"
+        android:padding="8dp" />
+
+    <TextView
+        android:id="@+id/textExpenseTotal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="총 지출: 없음"
+        android:padding="8dp" />
 
 
 </LinearLayout>
