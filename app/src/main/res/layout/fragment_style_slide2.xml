@@ -15,8 +15,8 @@ android:padding="16dp">
 <ImageView
     android:id="@+id/starIcon"
     android:src="@drawable/star_png_removebg"
-    android:layout_width="48dp"
-    android:layout_height="48dp"
+    android:layout_width="78dp"
+    android:layout_height="78dp"
     android:layout_alignParentStart="true" />
 
 <!-- 중앙: 보유 재화 -->
@@ -27,9 +27,9 @@ android:padding="16dp">
         android:id="@+id/coinText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="210dp"
+        android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:layout_toStartOf="@+id/settingsIcon"
         android:layout_toEndOf="@+id/starIcon"
         android:background="@drawable/rounded_background"
@@ -41,8 +41,8 @@ android:padding="16dp">
     <ImageView
     android:id="@+id/settingsIcon"
     android:src="@drawable/setting"
-    android:layout_width="48dp"
-    android:layout_height="48dp"
+    android:layout_width="78dp"
+    android:layout_height="78dp"
     android:layout_alignParentEnd="true"/>
 </RelativeLayout>
 
@@ -65,11 +65,14 @@ android:layout_margin="16dp">
 <!-- 수정 가능한 부분 아이콘 -->
     <ImageView
         android:id="@+id/editWindowIcon"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="58dp"
+        android:layout_height="65dp"
         android:layout_gravity="top|end"
-        android:layout_margin="32dp"
-        android:src="@drawable/edit" />
+        android:layout_margin="16dp"
+        android:src="@drawable/edit"
+        android:clickable="true"
+        android:focusable="true"
+        />
 
     <!-- 추가적으로 원하는 곳에 edit 아이콘 배치 -->
 </FrameLayout>
@@ -80,7 +83,7 @@ android:id="@+id/styleSelectionBar"
 android:orientation="vertical"
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
-    android:visibility="visible"
+    android:visibility="invisible"
 android:background="@drawable/rounded_background"
 android:padding="16dp"
     >

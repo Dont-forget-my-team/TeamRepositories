@@ -1,11 +1,13 @@
 package com.example.gamepractice;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -16,9 +18,21 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // 🔒 로그인한 적이 있다면 바로 GameActivity로 이동
+        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        boolean isLoggedIn = prefs.getBoolean("isLoggedIn", false);
+
+        if (isLoggedIn) {
+            Intent intent = new Intent(LoginActivity.this, GameActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_login);
 
-        editTextEmail = findViewById(R.id.editTextID );
+        editTextEmail = findViewById(R.id.editTextID);
         editTextPassword = findViewById(R.id.editTextPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
 
@@ -32,7 +46,12 @@ public class LoginActivity extends AppCompatActivity {
                 if (email.equals("test@example.com") && password.equals("1234")) {
                     Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();
 
-                    // login2로이동
+                    // ✅ 로그인 상태 저장
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putBoolean("isLoggedIn", true);
+                    editor.apply();
+
+                    // Login2Activity로 이동
                     Intent intent = new Intent(LoginActivity.this, Login2Activity.class);
                     startActivity(intent);
                     finish();
@@ -43,3 +62,4 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 }
+

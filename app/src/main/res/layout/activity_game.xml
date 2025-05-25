@@ -12,42 +12,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/softviolet"
-        app:layout_constraintTop_toBottomOf="@+id/starIcon" app:layout_constraintBottom_toTopOf="@+id/houseTextView" app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <ImageView
-        android:id="@+id/starIcon"
-        android:layout_width="78dp"
-        android:layout_height="78dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/star_png_removebg"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/settingsIcon"
-        android:layout_width="78dp"
-        android:layout_height="78dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/setting"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-
-    <TextView
-        android:id="@+id/scoreTextview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:text="HOUSE"
-        android:textSize="48sp"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/houseTextView"
@@ -69,7 +38,9 @@
         android:src="@android:drawable/ic_media_previous"
         app:layout_constraintBottom_toBottomOf="@id/houseTextView"
         app:layout_constraintEnd_toStartOf="@id/houseTextView"
-        app:layout_constraintTop_toTopOf="@id/houseTextView" />
+        app:layout_constraintTop_toTopOf="@id/houseTextView"
+
+        />
 
     <ImageView
         android:id="@+id/nextButton"

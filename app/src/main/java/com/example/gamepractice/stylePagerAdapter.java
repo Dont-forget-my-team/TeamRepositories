@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-public class StylePagerAdapter extends FragmentStateAdapter {
+public class stylePagerAdapter extends FragmentStateAdapter {
 
-    public StylePagerAdapter(@NonNull FragmentActivity fa) {
+    public stylePagerAdapter(@NonNull FragmentActivity fa) {
         super(fa);
     }
 
@@ -17,13 +17,13 @@ public class StylePagerAdapter extends FragmentStateAdapter {
         switch (position) {
             case 0: return new StyleSlide1Fragment();
             case 1: return new StyleSlide2Fragment();
-            case 2: return new StyleSlide3Fragment();
+
             default: return new StyleSlide1Fragment();
         }
     }
 
     @Override
     public int getItemCount() {
-        return 3; // 슬라이드 수만큼
+        return 2; // 슬라이드 수만큼
     }
 }

@@ -1,0 +1,72 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#6633CC"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 상단 상태바 -->
+<RelativeLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:padding="16dp">
+
+<!-- 왼쪽: 즐겨찾기 -->
+<ImageView
+    android:id="@+id/starIcon"
+    android:src="@drawable/star_png_removebg"
+    android:layout_width="78dp"
+    android:layout_height="78dp"
+    android:layout_alignParentStart="true" />
+
+<!-- 중앙: 보유 재화 -->
+
+    <!-- 오른쪽: 설정 -->
+
+    <TextView
+        android:id="@+id/coinText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_toStartOf="@+id/settingsIcon"
+        android:layout_toEndOf="@+id/starIcon"
+        android:background="@drawable/rounded_background"
+        android:padding="8dp"
+        android:text="★ 300"
+        android:textColor="#000"
+        android:textSize="16sp" />
+
+    <ImageView
+    android:id="@+id/settingsIcon"
+    android:src="@drawable/setting"
+    android:layout_width="78dp"
+    android:layout_height="78dp"
+    android:layout_alignParentEnd="true"/>
+</RelativeLayout>
+
+    <!-- 집 이미지 뷰 -->
+<FrameLayout
+android:layout_width="match_parent"
+android:layout_height="0dp"
+android:layout_weight="1"
+android:layout_margin="16dp">
+
+    <ImageView
+        android:id="@+id/roomImage"
+        android:layout_width="match_parent"
+        android:layout_height="371dp"
+        android:background="@drawable/background"
+        android:scaleType="fitCenter"
+
+        android:src="@drawable/roomm" />
+
+<!-- 수정 가능한 부분 아이콘 -->
+
+    <!-- 추가적으로 원하는 곳에 edit 아이콘 배치 -->
+</FrameLayout>
+
+    <!-- 하단 스타일 선택 바 -->
+</LinearLayout>
+
