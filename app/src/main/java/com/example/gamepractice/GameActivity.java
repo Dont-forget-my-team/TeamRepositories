@@ -4,13 +4,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity implements  StyleSlide2Fragment.GameUIController{
 
     private ViewPager2 viewPager;
     private stylePagerAdapter pagerAdapter;
@@ -103,4 +104,18 @@ public class GameActivity extends AppCompatActivity {
         // 별, 설정 아이콘 클릭 시 동작 추가 가능
 
     }
+    public void toggleBottomUI(boolean show) {
+        int visibility = show ?
+                View.VISIBLE : View.INVISIBLE;
+        boolean enabled = show;
+
+        houseTextView.setVisibility(visibility);
+        prevButton.setVisibility(visibility);
+        nextButton.setVisibility(visibility);
+
+        prevButton.setEnabled(enabled);
+        nextButton.setEnabled(enabled);
+    }
+
 }
+
