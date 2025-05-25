@@ -20,17 +20,25 @@ android:padding="16dp">
     android:layout_alignParentStart="true" />
 
 <!-- 중앙: 보유 재화 -->
-<TextView
-    android:id="@+id/coinText"
-    android:text="★ 300"
-    android:textColor="#fff"
-    android:textSize="16sp"
-    android:background="@drawable/white_round_bg"
-    android:padding="8dp"
-    android:layout_centerHorizontal="true"/>
 
-<!-- 오른쪽: 설정 -->
-<ImageView
+    <!-- 오른쪽: 설정 -->
+
+    <TextView
+        android:id="@+id/coinText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="210dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toStartOf="@+id/settingsIcon"
+        android:layout_toEndOf="@+id/starIcon"
+        android:background="@drawable/rounded_background"
+        android:padding="8dp"
+        android:text="★ 300"
+        android:textColor="#000"
+        android:textSize="16sp" />
+
+    <ImageView
     android:id="@+id/settingsIcon"
     android:src="@drawable/setting"
     android:layout_width="48dp"
@@ -49,7 +57,6 @@ android:layout_margin="16dp">
     android:id="@+id/roomImage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="30dp"
     android:src="@drawable/roomm"
     android:background="@drawable/background"
 
@@ -73,6 +80,7 @@ android:id="@+id/styleSelectionBar"
 android:orientation="vertical"
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
+    android:visibility="visible"
 android:background="@drawable/rounded_background"
 android:padding="16dp"
     >
