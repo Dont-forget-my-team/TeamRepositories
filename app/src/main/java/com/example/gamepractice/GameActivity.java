@@ -96,6 +96,9 @@ public class GameActivity extends AppCompatActivity implements  StyleSlide2Fragm
                     case 2:
                         houseTextView.setText("CALENDER");
                         break;
+                    case 3:
+                        houseTextView.setText("CHART");
+                        break;
                 }
             }
         });

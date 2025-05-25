@@ -79,9 +79,9 @@ android:layout_margin="16dp">
             android:layout_marginBottom="180dp"
             android:rotation="-93"
             android:rotationX="0"
-            app:srcCompat="@drawable/window_design__1_"
+            android:visibility="invisible"
 
-            />
+            app:srcCompat="@drawable/window_design__1_" />
     </androidx.cardview.widget.CardView>
 
 <!-- 수정 가능한 부분 아이콘 -->

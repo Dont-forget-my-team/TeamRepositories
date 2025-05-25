@@ -17,6 +17,8 @@ public class stylePagerAdapter extends FragmentStateAdapter {
         switch (position) {
             case 0: return new StyleSlide1Fragment();
             case 1: return new StyleSlide2Fragment();
+            case 2: return new StyleSlide3Fragment();
+            case 3: return new StyleSlide4Fragment();
 
             default: return new StyleSlide1Fragment();
         }
@@ -24,6 +26,6 @@ public class stylePagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 2; // 슬라이드 수만큼
+        return 4; // 슬라이드 수만큼
     }
 }
