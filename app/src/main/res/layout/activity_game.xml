@@ -24,18 +24,27 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="HOUSE"
+
         android:textSize="48sp"
         android:textStyle="bold"
+        android:textColor="#FF000000"
+        android:shadowColor="#80000000"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="3"
+
+
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/prevButton"
         android:layout_width="57dp"
         android:layout_height="60dp"
-        android:layout_marginEnd="8dp"
-        android:src="@android:drawable/ic_media_previous"
+        android:layout_marginEnd="40dp"
+        android:src="@drawable/arrow"
+        android:rotation="-180"
         app:layout_constraintBottom_toBottomOf="@id/houseTextView"
         app:layout_constraintEnd_toStartOf="@id/houseTextView"
         app:layout_constraintTop_toTopOf="@id/houseTextView"
@@ -44,10 +53,11 @@
 
     <ImageView
         android:id="@+id/nextButton"
-        android:layout_width="62dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="8dp"
-        android:src="@android:drawable/ic_media_next"
+        android:layout_width="68dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="40dp"
+        android:src="@drawable/arrow"
+
         app:layout_constraintBottom_toBottomOf="@id/houseTextView"
         app:layout_constraintStart_toEndOf="@id/houseTextView"
         app:layout_constraintTop_toTopOf="@id/houseTextView" />

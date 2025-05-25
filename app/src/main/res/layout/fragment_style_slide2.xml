@@ -1,5 +1,5 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#6633CC"
     android:layout_width="match_parent"
@@ -53,14 +53,36 @@ android:layout_height="0dp"
 android:layout_weight="1"
 android:layout_margin="16dp">
 
-<ImageView
-    android:id="@+id/roomImage"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:src="@drawable/roomm"
-    android:background="@drawable/background"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="371dp"
 
-    android:scaleType="fitCenter" />
+        app:cardCornerRadius="30dp"
+        app:cardElevation="0dp"
+        app:cardPreventCornerOverlap="false"
+        android:layout_margin="8dp">
+
+        <ImageView
+            android:id="@+id/roomImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background"
+            android:scaleType="centerCrop"
+            android:src="@drawable/roomm" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="118dp"
+            android:layout_height="120dp"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="30dp"
+            android:layout_marginBottom="180dp"
+            android:rotation="-93"
+            android:rotationX="0"
+            app:srcCompat="@drawable/window_design__1_"
+
+            />
+    </androidx.cardview.widget.CardView>
 
 <!-- 수정 가능한 부분 아이콘 -->
     <ImageView
