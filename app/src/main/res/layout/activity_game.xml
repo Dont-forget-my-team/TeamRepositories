@@ -17,7 +17,68 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- 상단 상태바 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+        <TextView
+            android:id="@+id/pointAddedText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/coinText"
+            android:layout_centerHorizontal="true"
+            android:text="+100"
+            android:textSize="18sp"
+            android:textColor="#4CAF50"
+            android:visibility="gone"
+         android:textStyle="bold" />
 
+        <!-- 포인트 차감 애니메이션 텍스트 -->
+        <TextView
+            android:id="@+id/pointDeductedText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/coinText"
+            android:layout_centerHorizontal="true"
+            android:text="-50"
+            android:textSize="18sp"
+            android:textColor="#F44336"
+        android:visibility="gone"
+        android:textStyle="bold" />
+
+
+        <ImageView
+            android:id="@+id/starIcon"
+            android:src="@drawable/star_png_removebg"
+            android:layout_width="78dp"
+            android:layout_height="78dp"
+            android:layout_alignParentStart="true" />
+
+
+
+        <TextView
+            android:id="@+id/coinText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_toStartOf="@+id/settingsIcon"
+            android:layout_toEndOf="@+id/starIcon"
+            android:background="@drawable/rounded_background"
+            android:padding="8dp"
+            android:text="★ 300"
+            android:textColor="#000"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/settingsIcon"
+            android:src="@drawable/setting"
+            android:layout_width="78dp"
+            android:layout_height="78dp"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
     <TextView
         android:id="@+id/houseTextView"
         android:layout_width="wrap_content"

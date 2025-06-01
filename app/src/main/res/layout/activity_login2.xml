@@ -28,6 +28,18 @@
         android:textColorHint="#FFFFFF"
         android:textStyle="bold"
         />
+    <EditText
+        android:id="@+id/target_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="목표금액"
+        android:backgroundTint="@color/softviolet"
+        android:inputType="textEmailAddress"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textStyle="bold"
+        />
 
     <Button
         android:id="@+id/buttonName"
