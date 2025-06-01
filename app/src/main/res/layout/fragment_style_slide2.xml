@@ -9,7 +9,8 @@
 <RelativeLayout
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
-android:padding="16dp">
+android:padding="16dp"
+    android:visibility="invisible">
 
 <!-- 왼쪽: 즐겨찾기 -->
 <ImageView
@@ -24,7 +25,7 @@ android:padding="16dp">
     <!-- 오른쪽: 설정 -->
 
     <TextView
-        android:id="@+id/coinText"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -117,85 +118,94 @@ android:padding="16dp"
     android:layout_height="wrap_content" />
 
 <!-- 스타일 아이템 리스트 -->
-<LinearLayout
-    android:id="@+id/styleOptions"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="center_horizontal"
-    android:layout_marginTop="8dp">
-
-    <!-- 각각의 스타일 아이템 -->
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_margin="8dp"
-        android:gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:id="@+id/styleOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="8dp">
 
-        <ImageView
-            android:layout_width="72dp"
-            android:layout_height="78dp"
-            android:src="@drawable/window_design__1_" />
+        <!-- 스타일 1 -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <Button
-            android:layout_width="90dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="4dp"
-            android:text="★ 50"
-            android:backgroundTint="#FFFFFF"
-            android:textColor="#000000"
-            android:paddingLeft="15dp" />
+            <ImageView
+                android:layout_width="72dp"
+                android:layout_height="78dp"
+                android:src="@drawable/window_design__1_" />
+
+            <Button
+                android:id="@+id/buybutton_window1"
+                android:layout_width="90dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="4dp"
+                android:text="★ 50"
+                android:backgroundTint="#FFFFFF"
+                android:textColor="#000000"
+                android:paddingLeft="15dp"
+                android:tag="window_design_1" />
+        </LinearLayout>
+
+        <!-- 스타일 2 -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="72dp"
+                android:layout_height="78dp"
+                android:src="@drawable/window_design__2" />
+
+            <Button
+                android:id="@+id/buybutton_window2"
+                android:layout_width="90dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="4dp"
+                android:text="★ 50"
+                android:backgroundTint="#FFFFFF"
+                android:textColor="#000000"
+                android:paddingLeft="15dp"
+                android:tag="window_design_2" />
+        </LinearLayout>
+
+        <!-- 스타일 3 -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="72dp"
+                android:layout_height="78dp"
+                android:src="@drawable/window_design__3" />
+
+            <Button
+                android:id="@+id/buybutton_window3"
+                android:layout_width="90dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="4dp"
+                android:text="★ 50"
+                android:backgroundTint="#FFFFFF"
+                android:textColor="#000000"
+                android:paddingLeft="15dp"
+                android:tag="window_design_3" />
+        </LinearLayout>
+
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_margin="8dp"
-        android:gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="72dp"
-            android:layout_height="78dp"
-            android:src="@drawable/window_design__2" />
-
-        <Button
-            android:layout_width="90dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="4dp"
-            android:text="★ 50"
-            android:backgroundTint="#FFFFFF"
-            android:textColor="#000000"
-            android:paddingLeft="15dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_margin="8dp"
-        android:gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="72dp"
-            android:layout_height="78dp"
-            android:src="@drawable/window_design__3" />
-
-        <Button
-            android:layout_width="90dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="4dp"
-            android:text="★ 50"
-            android:backgroundTint="#FFFFFF"
-        android:textColor="#000000"
-        android:paddingLeft="15dp" />
-
-
-    </LinearLayout>
 
     <!-- 더 추가 -->
 </LinearLayout>
 </LinearLayout>
-    </LinearLayout>
+
 
