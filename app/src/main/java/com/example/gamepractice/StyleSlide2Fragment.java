@@ -1,6 +1,8 @@
 package com.example.gamepractice;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -114,9 +116,9 @@ public class StyleSlide2Fragment extends Fragment {
         // 창문 스타일
         btnWindow.setOnClickListener(v -> {
             styleOptions.removeAllViews();
-            addStyleItem(styleOptions, R.drawable.window1, 50, "window_design_1");
-            addStyleItem(styleOptions, R.drawable.window_design__2, 50, "window_design_2");
-            addStyleItem(styleOptions, R.drawable.window_design__3, 50, "window_design_3");
+            addStyleItem(styleOptions, R.drawable.window1, 20, "window_design_1");
+            addStyleItem(styleOptions, R.drawable.window_design__2, 20, "window_design_2");
+            addStyleItem(styleOptions, R.drawable.window_design__3, 20, "window_design_3");
         });
 
         // 소파 스타일
@@ -128,20 +130,30 @@ public class StyleSlide2Fragment extends Fragment {
         });
 
         // 기타 카테고리 (임시)
+        // 벽걸이(캐비닛) 스타일
         btnCabinet.setOnClickListener(v -> {
             styleOptions.removeAllViews();
-            Toast.makeText(getContext(), "벽장 스타일 준비 중!", Toast.LENGTH_SHORT).show();
+            addStyleItem(styleOptions, R.drawable.wallhager1, 30, "wallhanger_design_1");
+            addStyleItem(styleOptions, R.drawable.wallhanger2, 30, "wallhanger_design_2");
+            addStyleItem(styleOptions, R.drawable.wallhanger3, 30, "wallhanger_design_3");
         });
 
+// 카펫 스타일
         btnCarpet.setOnClickListener(v -> {
             styleOptions.removeAllViews();
-            Toast.makeText(getContext(), "카펫 스타일 준비 중!", Toast.LENGTH_SHORT).show();
+            addStyleItem(styleOptions, R.drawable.carpet1, 10, "carpet_design_1");
+            addStyleItem(styleOptions, R.drawable.carpet2, 10, "carpet_design_2");
+            addStyleItem(styleOptions, R.drawable.carpet3, 10, "carpet_design_3");
         });
 
+// 벽지 스타일
         btnWallpaper.setOnClickListener(v -> {
             styleOptions.removeAllViews();
-            Toast.makeText(getContext(), "벽지 스타일 준비 중!", Toast.LENGTH_SHORT).show();
+            addStyleItem(styleOptions, R.drawable.room1, 50, "wallpaper_design_1");
+            addStyleItem(styleOptions, R.drawable.room2, 50, "wallpaper_design_2");
+            addStyleItem(styleOptions, R.drawable.room3, 50, "wallpaper_design_3");
         });
+
 
         // ✅ 초기 스타일 적용 생략 (초기화되므로 적용할 스타일 없음)
 
@@ -168,8 +180,6 @@ public class StyleSlide2Fragment extends Fragment {
 
     private void addStyleItem(LinearLayout container, int imageResId, int cost, String itemKey) {
         Context context = requireContext();
-
-        // ViewModel 가져오기
         StyleViewModel viewModel = new ViewModelProvider(requireActivity()).get(StyleViewModel.class);
 
         LinearLayout itemLayout = new LinearLayout(context);
@@ -177,9 +187,11 @@ public class StyleSlide2Fragment extends Fragment {
         itemLayout.setGravity(Gravity.CENTER_HORIZONTAL);
         itemLayout.setPadding(16, 16, 16, 16);
 
-        // ✅ 선택된 스타일 여부 확인
         boolean isWindow = itemKey.startsWith("window");
         boolean isSofa = itemKey.startsWith("sofa");
+        boolean isCarpet = itemKey.startsWith("carpet");
+        boolean isWallHanger = itemKey.startsWith("wallhanger");
+        boolean isWallpaper = itemKey.startsWith("wallpaper");
 
         boolean isPurchased = SharedPreferencesActivity.isPurchased(context, itemKey);
         boolean isSelected = false;
@@ -188,14 +200,18 @@ public class StyleSlide2Fragment extends Fragment {
             isSelected = itemKey.equals(SharedPreferencesActivity.getSelectedWindowStyle(context));
         } else if (isSofa) {
             isSelected = itemKey.equals(SharedPreferencesActivity.getSelectedSofaStyle(context));
+        } else if (isCarpet) {
+            isSelected = itemKey.equals(SharedPreferencesActivity.getSelectedCarpetStyle(context));
+        } else if (isWallHanger) {
+            isSelected = itemKey.equals(SharedPreferencesActivity.getSelectedWallhangerStyle(context));
+        } else if (isWallpaper) {
+            isSelected = itemKey.equals(SharedPreferencesActivity.getSelectedWallpaperStyle(context));
         }
 
-        // ✅ 선택된 항목이면 외곽선 강조
         if (isSelected) {
             itemLayout.setBackgroundResource(R.drawable.border_selected);
         }
 
-        // 이미지
         ImageView imageView = new ImageView(context);
         imageView.setImageResource(imageResId);
         LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(120, 120);
@@ -203,15 +219,14 @@ public class StyleSlide2Fragment extends Fragment {
         imageView.setLayoutParams(imageParams);
         itemLayout.addView(imageView);
 
-        // 버튼
         Button button = new Button(context);
         button.setTag(itemKey);
         LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(180, 80);
         button.setLayoutParams(buttonParams);
         button.setTextSize(16);
         button.setAllCaps(false);
-        button.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.WHITE));
-        button.setTextColor(android.graphics.Color.BLACK);
+        button.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+        button.setTextColor(Color.BLACK);
         button.setPadding(12, 0, 0, 0);
 
         if (isPurchased) {
@@ -225,25 +240,24 @@ public class StyleSlide2Fragment extends Fragment {
 
                     if (isWindow) {
                         SharedPreferencesActivity.saveSelectedWindowStyle(context, itemKey);
-                        viewModel.setSelectedWindowStyle(itemKey); // 🔹 ViewModel 반영
+                        viewModel.setSelectedWindowStyle(itemKey);
                     } else if (isSofa) {
                         SharedPreferencesActivity.saveSelectedSofaStyle(context, itemKey);
-                        viewModel.setSelectedSofaStyle(itemKey); // 🔹 ViewModel 반영
+                        viewModel.setSelectedSofaStyle(itemKey);
+                    } else if (isCarpet) {
+                        SharedPreferencesActivity.saveSelectedCarpetStyle(context, itemKey);
+                        viewModel.setSelectedCarpetStyle(itemKey);
+                    } else if (isWallHanger) {
+                        SharedPreferencesActivity.saveSelectedWallhangerStyle(context, itemKey);
+                        viewModel.setSelectedWallHangerStyle(itemKey);
+                    } else if (isWallpaper) {
+                        SharedPreferencesActivity.saveSelectedWallpaperStyle(context, itemKey);
+                        viewModel.setSelectedWallpaperStyle(itemKey);
                     }
 
                     Toast.makeText(context, "스타일이 적용됐어요!", Toast.LENGTH_SHORT).show();
-
-                    // UI 갱신
                     styleOptions.removeAllViews();
-                    if (isWindow) {
-                        addStyleItem(styleOptions, R.drawable.window1, 50, "window_design_1");
-                        addStyleItem(styleOptions, R.drawable.window_design__2, 50, "window_design_2");
-                        addStyleItem(styleOptions, R.drawable.window_design__3, 50, "window_design_3");
-                    } else if (isSofa) {
-                        addStyleItem(styleOptions, R.drawable.sopa1, 50, "sofa_design_1");
-                        addStyleItem(styleOptions, R.drawable.sopa2, 50, "sofa_design_2");
-                        addStyleItem(styleOptions, R.drawable.sopa3, 50, "sofa_design_3");
-                    }
+                    reloadCategoryItems(isWindow, isSofa, isCarpet, isWallHanger, isWallpaper);
                 });
             }
         } else {
@@ -257,27 +271,26 @@ public class StyleSlide2Fragment extends Fragment {
 
                     if (isWindow) {
                         SharedPreferencesActivity.saveSelectedWindowStyle(context, itemKey);
-                        viewModel.setSelectedWindowStyle(itemKey); // 🔹 ViewModel 반영
+                        viewModel.setSelectedWindowStyle(itemKey);
                     } else if (isSofa) {
                         SharedPreferencesActivity.saveSelectedSofaStyle(context, itemKey);
-                        viewModel.setSelectedSofaStyle(itemKey); // 🔹 ViewModel 반영
+                        viewModel.setSelectedSofaStyle(itemKey);
+                    } else if (isCarpet) {
+                        SharedPreferencesActivity.saveSelectedCarpetStyle(context, itemKey);
+                        viewModel.setSelectedCarpetStyle(itemKey);
+                    } else if (isWallHanger) {
+                        SharedPreferencesActivity.saveSelectedWallhangerStyle(context, itemKey);
+                        viewModel.setSelectedWallHangerStyle(itemKey);
+                    } else if (isWallpaper) {
+                        SharedPreferencesActivity.saveSelectedWallpaperStyle(context, itemKey);
+                        viewModel.setSelectedWallpaperStyle(itemKey);
                     }
 
                     applyStyle(itemKey);
                     showPointChange(pointDeductedText, "-" + cost);
                     Toast.makeText(context, "스타일을 구매하고 적용했어요!", Toast.LENGTH_SHORT).show();
-
-                    // 다시 버튼 UI 갱신
                     styleOptions.removeAllViews();
-                    if (isWindow) {
-                        addStyleItem(styleOptions, R.drawable.window1, 50, "window_design_1");
-                        addStyleItem(styleOptions, R.drawable.window_design__2, 50, "window_design_2");
-                        addStyleItem(styleOptions, R.drawable.window_design__3, 50, "window_design_3");
-                    } else if (isSofa) {
-                        addStyleItem(styleOptions, R.drawable.sopa1, 50, "sofa_design_1");
-                        addStyleItem(styleOptions, R.drawable.sopa2, 50, "sofa_design_2");
-                        addStyleItem(styleOptions, R.drawable.sopa3, 50, "sofa_design_3");
-                    }
+                    reloadCategoryItems(isWindow, isSofa, isCarpet, isWallHanger, isWallpaper);
                 } else {
                     Toast.makeText(context, "포인트가 부족해요!", Toast.LENGTH_SHORT).show();
                 }
@@ -287,6 +300,31 @@ public class StyleSlide2Fragment extends Fragment {
         itemLayout.addView(button);
         container.addView(itemLayout);
     }
+
+    private void reloadCategoryItems(boolean isWindow, boolean isSofa, boolean isCarpet, boolean isWallHanger, boolean isWallpaper) {
+        if (isWindow) {
+            addStyleItem(styleOptions, R.drawable.window1, 50, "window_design_1");
+            addStyleItem(styleOptions, R.drawable.window_design__2, 50, "window_design_2");
+            addStyleItem(styleOptions, R.drawable.window_design__3, 50, "window_design_3");
+        } else if (isSofa) {
+            addStyleItem(styleOptions, R.drawable.sopa1, 50, "sofa_design_1");
+            addStyleItem(styleOptions, R.drawable.sopa2, 50, "sofa_design_2");
+            addStyleItem(styleOptions, R.drawable.sopa3, 50, "sofa_design_3");
+        } else if (isCarpet) {
+            addStyleItem(styleOptions, R.drawable.carpet1, 50, "carpet_design_1");
+            addStyleItem(styleOptions, R.drawable.carpet2, 50, "carpet_design_2");
+            addStyleItem(styleOptions, R.drawable.carpet3, 50, "carpet_design_3");
+        } else if (isWallHanger) {
+            addStyleItem(styleOptions, R.drawable.wallhager1, 50, "wallhanger_design_1");
+            addStyleItem(styleOptions, R.drawable.wallhanger2, 50, "wallhanger_design_2");
+            addStyleItem(styleOptions, R.drawable.wallhanger3, 50, "wallhanger_design_3");
+        } else if (isWallpaper) {
+            addStyleItem(styleOptions, R.drawable.room1, 50, "wallpaper_design_1");
+            addStyleItem(styleOptions, R.drawable.room2, 50, "wallpaper_design_2");
+            addStyleItem(styleOptions, R.drawable.room3, 50, "wallpaper_design_3");
+        }
+    }
+
 
 
 

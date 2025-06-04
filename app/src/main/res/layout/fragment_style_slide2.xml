@@ -75,15 +75,6 @@
                 android:visibility="visible"
                 app:srcCompat="@drawable/window1" />
 
-            <ImageView
-                android:id="@+id/soapview"
-                android:layout_width="168dp"
-                android:layout_height="149dp"
-                android:layout_gravity="right"
-                android:layout_marginTop="155dp"
-                android:layout_marginRight="60dp"
-                android:visibility="visible"
-                app:srcCompat="@drawable/sopa1" />
 
             <ImageView
                 android:id="@+id/carpetview"
@@ -97,6 +88,18 @@
                 android:rotationY="0"
                 android:visibility="visible"
                 app:srcCompat="@drawable/carpet1" />
+
+
+            <ImageView
+                android:id="@+id/soapview"
+                android:layout_width="168dp"
+                android:layout_height="149dp"
+                android:layout_gravity="right"
+                android:layout_marginTop="155dp"
+                android:layout_marginRight="60dp"
+                android:visibility="visible"
+                app:srcCompat="@drawable/sopa1" />
+
 
             <ImageView
                 android:id="@+id/wallhangerview"
