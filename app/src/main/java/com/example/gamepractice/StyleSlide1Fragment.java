@@ -21,6 +21,10 @@ public class StyleSlide1Fragment extends Fragment {
 
         ImageView windowView = view.findViewById(R.id.imageView2);
         ImageView sofaView = view.findViewById(R.id.soapview);
+        ImageView carpetView = view.findViewById(R.id.carpetview);
+        ImageView wallhangerView = view.findViewById(R.id.wallhangerview);
+        ImageView wallpaperView = view.findViewById(R.id.roomImage); // wallpaper는 roomImage로 처리됨
+
 
         // ✅ ViewModel 연결
         StyleViewModel viewModel = new ViewModelProvider(requireActivity()).get(StyleViewModel.class);
@@ -53,6 +57,47 @@ public class StyleSlide1Fragment extends Fragment {
                     sofaView.setImageResource(R.drawable.sopa3); break;
             }
             sofaView.setVisibility(View.VISIBLE);
+        });
+
+        viewModel.getSelectedCarpetStyle().observe(getViewLifecycleOwner(), selectedCarpet -> {
+            if (selectedCarpet == null) return;
+
+            switch (selectedCarpet) {
+                case "carpet_design_1":
+                    carpetView.setImageResource(R.drawable.carpet1); break;
+                case "carpet_design_2":
+                    carpetView.setImageResource(R.drawable.carpet2); break;
+                case "carpet_design_3":
+                    carpetView.setImageResource(R.drawable.carpet3); break;
+            }
+            carpetView.setVisibility(View.VISIBLE);
+        });
+
+        viewModel.getSelectedWallHangerStyle().observe(getViewLifecycleOwner(), selectedWallHanger -> {
+            if (selectedWallHanger == null) return;
+
+            switch (selectedWallHanger) {
+                case "wallhanger_design_1":
+                    wallhangerView.setImageResource(R.drawable.wallhager1); break;
+                case "wallhanger_design_2":
+                    wallhangerView.setImageResource(R.drawable.wallhager2); break;
+                case "wallhanger_design_3":
+                    wallhangerView.setImageResource(R.drawable.wallhager3); break;
+            }
+            wallhangerView.setVisibility(View.VISIBLE);
+        });
+
+        viewModel.getSelectedWallpaperStyle().observe(getViewLifecycleOwner(), selectedWallpaper -> {
+            if (selectedWallpaper == null) return;
+
+            switch (selectedWallpaper) {
+                case "wallpaper_design_1":
+                    wallpaperView.setImageResource(R.drawable.room1); break;
+                case "wallpaper_design_2":
+                    wallpaperView.setImageResource(R.drawable.room2); break;
+                case "wallpaper_design_3":
+                    wallpaperView.setImageResource(R.drawable.room3); break;
+            }
         });
 
         return view;

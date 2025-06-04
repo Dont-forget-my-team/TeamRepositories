@@ -40,6 +40,11 @@ public class StyleSlide2Fragment extends Fragment {
 
     private StyleViewModel viewModel;
 
+    private ImageView carpetView;
+    private ImageView wallhangerView;
+    private ImageView wallpaperView;
+
+
 
     public interface GameUIController {
         void toggleBottomUI(boolean show);
@@ -80,6 +85,14 @@ public class StyleSlide2Fragment extends Fragment {
         // ✅ 소파 뷰 초기화 및 숨기기
         sofaView = view.findViewById(R.id.soapview);
         sofaView.setVisibility(View.INVISIBLE);
+
+        carpetView = view.findViewById(R.id.carpetview);
+        carpetView.setVisibility(View.INVISIBLE);
+
+        wallhangerView = view.findViewById(R.id.wallhangerview);
+        wallhangerView.setVisibility(View.INVISIBLE);
+
+        wallpaperView = view.findViewById(R.id.roomImage); // wallpaper는 항상 visible로 사용
 
         coinText = requireActivity().findViewById(R.id.coinText);
         pointAddedText = requireActivity().findViewById(R.id.pointAddedText);
@@ -304,6 +317,41 @@ public class StyleSlide2Fragment extends Fragment {
             case "sofa_design_3":
                 sofaView.setImageResource(R.drawable.sopa3);
                 sofaView.setVisibility(View.VISIBLE);
+                break;
+            case "carpet_design_1":
+                carpetView.setImageResource(R.drawable.carpet1);
+                carpetView.setVisibility(View.VISIBLE);
+                break;
+            case "carpet_design_2":
+                carpetView.setImageResource(R.drawable.carpet2);
+                carpetView.setVisibility(View.VISIBLE);
+                break;
+            case "carpet_design_3":
+                carpetView.setImageResource(R.drawable.carpet3);
+                carpetView.setVisibility(View.VISIBLE);
+                break;
+
+            case "wallhanger_design_1":
+                wallhangerView.setImageResource(R.drawable.wallhager1);
+                wallhangerView.setVisibility(View.VISIBLE);
+                break;
+            case "wallhanger_design_2":
+                wallhangerView.setImageResource(R.drawable.wallhanger2);
+                wallhangerView.setVisibility(View.VISIBLE);
+                break;
+            case "wallhanger_design_3":
+                wallhangerView.setImageResource(R.drawable.wallhanger3);
+                wallhangerView.setVisibility(View.VISIBLE);
+                break;
+
+            case "wallpaper_design_1":
+                wallpaperView.setImageResource(R.drawable.room1);
+                break;
+            case "wallpaper_design_2":
+                wallpaperView.setImageResource(R.drawable.room2);
+                break;
+            case "wallpaper_design_3":
+                wallpaperView.setImageResource(R.drawable.room3);
                 break;
 
             default:
