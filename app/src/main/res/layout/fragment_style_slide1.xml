@@ -70,6 +70,18 @@ android:layout_margin="16dp">
             android:background="@drawable/background"
             android:scaleType="centerCrop"
             android:src="@drawable/roomm" />
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="118dp"
+            android:layout_height="120dp"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="30dp"
+            android:layout_marginBottom="180dp"
+            android:rotation="-93"
+            android:rotationX="0"
+            android:visibility="invisible"
+
+            app:srcCompat="@drawable/window1" />
     </androidx.cardview.widget.CardView>
 
 <!-- 수정 가능한 부분 아이콘 -->
