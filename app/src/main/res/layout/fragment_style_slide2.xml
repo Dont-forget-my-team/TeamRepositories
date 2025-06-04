@@ -125,7 +125,7 @@
 
                 <Button android:id="@+id/btn_window" android:text="창문"  android:layout_height="wrap_content" android:layout_width="wrap_content"/>
                 <Button android:id="@+id/btn_sofa" android:text="소파" android:layout_height="wrap_content" android:layout_width="wrap_content"/>
-                <Button android:id="@+id/btn_cabinet" android:text="벽장" android:layout_height="wrap_content" android:layout_width="wrap_content"/>
+                <Button android:id="@+id/btn_cabinet" android:text="벽걸이" android:layout_height="wrap_content" android:layout_width="wrap_content"/>
                 <Button android:id="@+id/btn_carpet" android:text="카펫" android:layout_height="wrap_content" android:layout_width="wrap_content"/>
                 <Button android:id="@+id/btn_wallpaper" android:text="벽지" android:layout_height="wrap_content" android:layout_width="wrap_content"/>
             </LinearLayout>
