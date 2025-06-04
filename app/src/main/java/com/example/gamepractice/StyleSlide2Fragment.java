@@ -22,6 +22,9 @@ public class StyleSlide2Fragment extends Fragment {
     private LinearLayout styleSelectionBar;
     private boolean isStyleBarVisible = false;
 
+
+    private ImageView sofaView; // 소파 뷰
+
     private GameUIController uiController;
 
     private TextView coinText;
@@ -54,19 +57,28 @@ public class StyleSlide2Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_style_slide2, container, false);
 
-        // 초기화
+        // ✅ 테스트용 초기화: 코인, 구매 상태, 선택 스타일 리셋
+        SharedPreferencesActivity.resetForTesting(requireContext());
+
+        // 기본 UI 초기화
         editWindowIcon = view.findViewById(R.id.editWindowIcon);
         styleSelectionBar = view.findViewById(R.id.styleSelectionBar);
         styleOptions = view.findViewById(R.id.styleOptions);
         overlayWindowImage = view.findViewById(R.id.imageView2);
         overlayWindowImage.setVisibility(View.INVISIBLE);
 
+        // ✅ 소파 뷰 초기화 및 숨기기
+        sofaView = view.findViewById(R.id.soapview);
+        sofaView.setVisibility(View.INVISIBLE);
+
         coinText = requireActivity().findViewById(R.id.coinText);
         pointAddedText = requireActivity().findViewById(R.id.pointAddedText);
         pointDeductedText = requireActivity().findViewById(R.id.pointDeductedText);
 
+        // 초기 코인 불러오기 (500으로 리셋된 상태)
         currentCoins = SharedPreferencesActivity.loadCoins(requireContext());
         updateCoinText();
 
@@ -87,7 +99,7 @@ public class StyleSlide2Fragment extends Fragment {
             addStyleItem(styleOptions, R.drawable.window_design__3, 50, "window_design_3");
         });
 
-        // 소파 스타일 (예시용)
+        // 소파 스타일
         btnSofa.setOnClickListener(v -> {
             styleOptions.removeAllViews();
             addStyleItem(styleOptions, R.drawable.sopa1, 50, "sofa_design_1");
@@ -95,7 +107,7 @@ public class StyleSlide2Fragment extends Fragment {
             addStyleItem(styleOptions, R.drawable.sopa3, 50, "sofa_design_3");
         });
 
-        // 나머지 카테고리도 필요 시 구현
+        // 기타 카테고리 (임시)
         btnCabinet.setOnClickListener(v -> {
             styleOptions.removeAllViews();
             Toast.makeText(getContext(), "벽장 스타일 준비 중!", Toast.LENGTH_SHORT).show();
@@ -111,17 +123,11 @@ public class StyleSlide2Fragment extends Fragment {
             Toast.makeText(getContext(), "벽지 스타일 준비 중!", Toast.LENGTH_SHORT).show();
         });
 
-        // 초기 적용 (구매 내역 확인)
-        if (SharedPreferencesActivity.isPurchased(requireContext(), "window_design_1")) {
-            applyStyle("window_design_1");
-        } else if (SharedPreferencesActivity.isPurchased(requireContext(), "window_design_2")) {
-            applyStyle("window_design_2");
-        } else if (SharedPreferencesActivity.isPurchased(requireContext(), "window_design_3")) {
-            applyStyle("window_design_3");
-        }
+        // ✅ 초기 스타일 적용 생략 (초기화되므로 적용할 스타일 없음)
 
         return view;
     }
+
 
     private void toggleStyleBar() {
         isStyleBarVisible = !isStyleBarVisible;
@@ -143,90 +149,154 @@ public class StyleSlide2Fragment extends Fragment {
     private void addStyleItem(LinearLayout container, int imageResId, int cost, String itemKey) {
         Context context = requireContext();
 
-
-
         LinearLayout itemLayout = new LinearLayout(context);
         itemLayout.setOrientation(LinearLayout.VERTICAL);
         itemLayout.setGravity(Gravity.CENTER_HORIZONTAL);
         itemLayout.setPadding(16, 16, 16, 16);
 
-        // 이미지뷰 크게
+        // ✅ 선택된 스타일 여부 확인
+        boolean isWindow = itemKey.startsWith("window");
+        boolean isSofa = itemKey.startsWith("sofa");
+
+        boolean isPurchased = SharedPreferencesActivity.isPurchased(context, itemKey);
+        boolean isSelected = false;
+
+        if (isWindow) {
+            isSelected = itemKey.equals(SharedPreferencesActivity.getSelectedWindowStyle(context));
+        } else if (isSofa) {
+            isSelected = itemKey.equals(SharedPreferencesActivity.getSelectedSofaStyle(context));
+        }
+
+        // ✅ 선택된 항목이면 외곽선 강조
+        if (isSelected) {
+            itemLayout.setBackgroundResource(R.drawable.border_selected);
+        }
+
+        // 이미지
         ImageView imageView = new ImageView(context);
         imageView.setImageResource(imageResId);
-        LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(120, 120); // 크게 조정
-        imageParams.setMargins(0, 0, 0, 8); // 이미지 아래 간격
+        LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(120, 120);
+        imageParams.setMargins(0, 0, 0, 8);
         imageView.setLayoutParams(imageParams);
         itemLayout.addView(imageView);
 
-        // 버튼 크게 + 글자 큼
+        // 버튼
         Button button = new Button(context);
-        button.setText("★ " + cost);
         button.setTag(itemKey);
-        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(180, 80); // 넓고 높게
+        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(180, 80);
         button.setLayoutParams(buttonParams);
-        button.setTextSize(16); // 글자 키움
-        button.setAllCaps(false); // 소문자 유지
+        button.setTextSize(16);
+        button.setAllCaps(false);
         button.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.WHITE));
         button.setTextColor(android.graphics.Color.BLACK);
         button.setPadding(12, 0, 0, 0);
-        itemLayout.addView(button);
 
-        // 구매 상태 확인
-        if (SharedPreferencesActivity.isPurchased(context, itemKey)) {
-            button.setEnabled(false);
-            button.setText("구매 완료");
+        if (isPurchased) {
+            if (isSelected) {
+                button.setText("적용됨");
+                button.setEnabled(false);
+            } else {
+                button.setText("적용하기");
+                button.setOnClickListener(v -> {
+                    applyStyle(itemKey);
+                    if (isWindow) {
+                        SharedPreferencesActivity.saveSelectedWindowStyle(context, itemKey);
+                    } else if (isSofa) {
+                        SharedPreferencesActivity.saveSelectedSofaStyle(context, itemKey);
+                    }
+
+                    Toast.makeText(context, "스타일이 적용됐어요!", Toast.LENGTH_SHORT).show();
+                    // UI 갱신
+                    styleOptions.removeAllViews();
+                    if (isWindow) {
+                        addStyleItem(styleOptions, R.drawable.window1, 50, "window_design_1");
+                        addStyleItem(styleOptions, R.drawable.window_design__2, 50, "window_design_2");
+                        addStyleItem(styleOptions, R.drawable.window_design__3, 50, "window_design_3");
+                    } else if (isSofa) {
+                        addStyleItem(styleOptions, R.drawable.sopa1, 50, "sofa_design_1");
+                        addStyleItem(styleOptions, R.drawable.sopa2, 50, "sofa_design_2");
+                        addStyleItem(styleOptions, R.drawable.sopa3, 50, "sofa_design_3");
+                    }
+                });
+            }
         } else {
+            button.setText("★ " + cost);
             button.setOnClickListener(v -> {
                 if (currentCoins >= cost) {
                     currentCoins -= cost;
                     SharedPreferencesActivity.saveCoins(context, currentCoins);
                     SharedPreferencesActivity.savePurchase(context, itemKey, true);
                     updateCoinText();
-                    button.setEnabled(false);
-                    button.setText("구매 완료");
+
+                    if (isWindow) {
+                        SharedPreferencesActivity.saveSelectedWindowStyle(context, itemKey);
+                    } else if (isSofa) {
+                        SharedPreferencesActivity.saveSelectedSofaStyle(context, itemKey);
+                    }
+
                     applyStyle(itemKey);
                     showPointChange(pointDeductedText, "-" + cost);
-                    Toast.makeText(context, "스타일을 구매했어요!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "스타일을 구매하고 적용했어요!", Toast.LENGTH_SHORT).show();
+
+                    // 다시 버튼 UI 갱신
+                    styleOptions.removeAllViews();
+                    if (isWindow) {
+                        addStyleItem(styleOptions, R.drawable.window1, 50, "window_design_1");
+                        addStyleItem(styleOptions, R.drawable.window_design__2, 50, "window_design_2");
+                        addStyleItem(styleOptions, R.drawable.window_design__3, 50, "window_design_3");
+                    } else if (isSofa) {
+                        addStyleItem(styleOptions, R.drawable.sopa1, 50, "sofa_design_1");
+                        addStyleItem(styleOptions, R.drawable.sopa2, 50, "sofa_design_2");
+                        addStyleItem(styleOptions, R.drawable.sopa3, 50, "sofa_design_3");
+                    }
                 } else {
                     Toast.makeText(context, "포인트가 부족해요!", Toast.LENGTH_SHORT).show();
                 }
             });
         }
 
+        itemLayout.addView(button);
         container.addView(itemLayout);
     }
 
 
+
     private void applyStyle(String itemKey) {
-        int drawableRes;
         switch (itemKey) {
             case "window_design_1":
-                drawableRes = R.drawable.window1;
+                overlayWindowImage.setImageResource(R.drawable.window1);
+                overlayWindowImage.setVisibility(View.VISIBLE);
                 break;
             case "window_design_2":
-                drawableRes = R.drawable.window_design__2;
+                overlayWindowImage.setImageResource(R.drawable.window_design__2);
+                overlayWindowImage.setVisibility(View.VISIBLE);
                 break;
             case "window_design_3":
-                drawableRes = R.drawable.window_design__3;
+                overlayWindowImage.setImageResource(R.drawable.window_design__3);
+                overlayWindowImage.setVisibility(View.VISIBLE);
                 break;
+
             case "sofa_design_1":
-                drawableRes = R.drawable.sopa1;
+                sofaView.setImageResource(R.drawable.sopa1);
+                sofaView.setVisibility(View.VISIBLE);
                 break;
             case "sofa_design_2":
-                drawableRes = R.drawable.sopa2;
+                sofaView.setImageResource(R.drawable.sopa2);
+                sofaView.setVisibility(View.VISIBLE);
                 break;
             case "sofa_design_3":
-                drawableRes = R.drawable.sopa3;
+                sofaView.setImageResource(R.drawable.sopa3);
+                sofaView.setVisibility(View.VISIBLE);
                 break;
+
             default:
                 overlayWindowImage.setVisibility(View.INVISIBLE);
-                return;
+                sofaView.setVisibility(View.INVISIBLE);
+                break;
         }
-
-        overlayWindowImage.setImageResource(drawableRes);
-        overlayWindowImage.setVisibility(View.VISIBLE);
-        overlayWindowImage.bringToFront();
     }
+
+
 
     private void updateCoinText() {
         coinText.setText("★ " + currentCoins);
