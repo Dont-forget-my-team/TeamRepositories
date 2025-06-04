@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 public class StyleSlide2Fragment extends Fragment {
 
@@ -37,6 +38,9 @@ public class StyleSlide2Fragment extends Fragment {
 
     private LinearLayout styleOptions;
 
+    private StyleViewModel viewModel;
+
+
     public interface GameUIController {
         void toggleBottomUI(boolean show);
     }
@@ -57,6 +61,9 @@ public class StyleSlide2Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+        viewModel = new ViewModelProvider(requireActivity()).get(StyleViewModel.class);
+
 
         View view = inflater.inflate(R.layout.fragment_style_slide2, container, false);
 
@@ -149,6 +156,9 @@ public class StyleSlide2Fragment extends Fragment {
     private void addStyleItem(LinearLayout container, int imageResId, int cost, String itemKey) {
         Context context = requireContext();
 
+        // ViewModel 가져오기
+        StyleViewModel viewModel = new ViewModelProvider(requireActivity()).get(StyleViewModel.class);
+
         LinearLayout itemLayout = new LinearLayout(context);
         itemLayout.setOrientation(LinearLayout.VERTICAL);
         itemLayout.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -199,13 +209,17 @@ public class StyleSlide2Fragment extends Fragment {
                 button.setText("적용하기");
                 button.setOnClickListener(v -> {
                     applyStyle(itemKey);
+
                     if (isWindow) {
                         SharedPreferencesActivity.saveSelectedWindowStyle(context, itemKey);
+                        viewModel.setSelectedWindowStyle(itemKey); // 🔹 ViewModel 반영
                     } else if (isSofa) {
                         SharedPreferencesActivity.saveSelectedSofaStyle(context, itemKey);
+                        viewModel.setSelectedSofaStyle(itemKey); // 🔹 ViewModel 반영
                     }
 
                     Toast.makeText(context, "스타일이 적용됐어요!", Toast.LENGTH_SHORT).show();
+
                     // UI 갱신
                     styleOptions.removeAllViews();
                     if (isWindow) {
@@ -230,8 +244,10 @@ public class StyleSlide2Fragment extends Fragment {
 
                     if (isWindow) {
                         SharedPreferencesActivity.saveSelectedWindowStyle(context, itemKey);
+                        viewModel.setSelectedWindowStyle(itemKey); // 🔹 ViewModel 반영
                     } else if (isSofa) {
                         SharedPreferencesActivity.saveSelectedSofaStyle(context, itemKey);
+                        viewModel.setSelectedSofaStyle(itemKey); // 🔹 ViewModel 반영
                     }
 
                     applyStyle(itemKey);
@@ -258,6 +274,7 @@ public class StyleSlide2Fragment extends Fragment {
         itemLayout.addView(button);
         container.addView(itemLayout);
     }
+
 
 
 

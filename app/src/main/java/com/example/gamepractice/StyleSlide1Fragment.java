@@ -9,11 +9,11 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 public class StyleSlide1Fragment extends Fragment {
 
     @Nullable
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -22,8 +22,13 @@ public class StyleSlide1Fragment extends Fragment {
         ImageView windowView = view.findViewById(R.id.imageView2);
         ImageView sofaView = view.findViewById(R.id.soapview);
 
-        String selectedWindow = SharedPreferencesActivity.getSelectedWindowStyle(requireContext());
-        if (selectedWindow != null) {
+        // ✅ ViewModel 연결
+        StyleViewModel viewModel = new ViewModelProvider(requireActivity()).get(StyleViewModel.class);
+
+        // ✅ 창문 스타일 옵저빙
+        viewModel.getSelectedWindowStyle().observe(getViewLifecycleOwner(), selectedWindow -> {
+            if (selectedWindow == null) return;
+
             switch (selectedWindow) {
                 case "window_design_1":
                     windowView.setImageResource(R.drawable.window1); break;
@@ -33,10 +38,12 @@ public class StyleSlide1Fragment extends Fragment {
                     windowView.setImageResource(R.drawable.window_design__3); break;
             }
             windowView.setVisibility(View.VISIBLE);
-        }
+        });
 
-        String selectedSofa = SharedPreferencesActivity.getSelectedSofaStyle(requireContext());
-        if (selectedSofa != null) {
+        // ✅ 소파 스타일 옵저빙
+        viewModel.getSelectedSofaStyle().observe(getViewLifecycleOwner(), selectedSofa -> {
+            if (selectedSofa == null) return;
+
             switch (selectedSofa) {
                 case "sofa_design_1":
                     sofaView.setImageResource(R.drawable.sopa1); break;
@@ -46,9 +53,8 @@ public class StyleSlide1Fragment extends Fragment {
                     sofaView.setImageResource(R.drawable.sopa3); break;
             }
             sofaView.setVisibility(View.VISIBLE);
-        }
+        });
 
         return view;
     }
-
 }
