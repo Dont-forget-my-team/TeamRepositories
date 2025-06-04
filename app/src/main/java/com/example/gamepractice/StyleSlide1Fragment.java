@@ -80,9 +80,9 @@ public class StyleSlide1Fragment extends Fragment {
                 case "wallhanger_design_1":
                     wallhangerView.setImageResource(R.drawable.wallhager1); break;
                 case "wallhanger_design_2":
-                    wallhangerView.setImageResource(R.drawable.wallhager2); break;
+                    wallhangerView.setImageResource(R.drawable.wallhanger2); break;
                 case "wallhanger_design_3":
-                    wallhangerView.setImageResource(R.drawable.wallhager3); break;
+                    wallhangerView.setImageResource(R.drawable.wallhanger3); break;
             }
             wallhangerView.setVisibility(View.VISIBLE);
         });
