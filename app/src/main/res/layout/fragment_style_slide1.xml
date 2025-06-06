@@ -6,26 +6,21 @@
     android:layout_height="match_parent">
 
     <!-- 상단 상태바 -->
-<RelativeLayout
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:padding="16dp"
-    android:visibility="invisible">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:visibility="invisible">
 
-<!-- 왼쪽: 즐겨찾기 -->
-<ImageView
-    android:id="@+id/starIcon"
-    android:src="@drawable/star_png_removebg"
-    android:layout_width="78dp"
-    android:layout_height="78dp"
-    android:layout_alignParentStart="true" />
+        <ImageView
+            android:id="@+id/starIcon"
+            android:src="@drawable/star_png_removebg"
+            android:layout_width="78dp"
+            android:layout_height="78dp"
+            android:layout_alignParentStart="true" />
 
-<!-- 중앙: 보유 재화 -->
-
-    <!-- 오른쪽: 설정 -->
-
-    <TextView
-
+        <TextView
+            android:id="@+id/coinText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -39,44 +34,89 @@ android:padding="16dp"
         android:textColor="#000"
         android:textSize="16sp" />
 
-    <ImageView
-    android:id="@+id/settingsIcon"
-    android:src="@drawable/setting"
-    android:layout_width="78dp"
-    android:layout_height="78dp"
-    android:layout_alignParentEnd="true"/>
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/settingsIcon"
+            android:src="@drawable/setting"
+            android:layout_width="78dp"
+            android:layout_height="78dp"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
 
     <!-- 집 이미지 뷰 -->
-<FrameLayout
-android:layout_width="match_parent"
-android:layout_height="0dp"
-android:layout_weight="1"
-android:layout_margin="16dp">
-
-    <androidx.cardview.widget.CardView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="371dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="16dp">
 
-        app:cardCornerRadius="30dp"
-        app:cardElevation="0dp"
-        app:cardPreventCornerOverlap="false"
-        android:layout_margin="8dp">
-
-        <ImageView
-            android:id="@+id/roomImage"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/background"
-            android:scaleType="centerCrop"
-            android:src="@drawable/roomm" />
-    </androidx.cardview.widget.CardView>
+            android:layout_height="371dp"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="0dp"
+            app:cardPreventCornerOverlap="false">
 
-<!-- 수정 가능한 부분 아이콘 -->
+            <!-- 배경 -->
+            <ImageView
+                android:id="@+id/roomImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background"
+                android:scaleType="centerCrop"
+                android:src="@drawable/room1" />
 
-    <!-- 추가적으로 원하는 곳에 edit 아이콘 배치 -->
-</FrameLayout>
+            <!-- 창문 이미지 (초기 비가시, 선택되면 보이게) -->
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="118dp"
+                android:layout_height="120dp"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="45dp"
+                android:layout_marginBottom="180dp"
+                android:rotationY="25"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/window1" />
 
-    <!-- 하단 스타일 선택 바 -->
+            <ImageView
+                android:id="@+id/carpetview"
+                android:layout_width="168dp"
+                android:layout_height="149dp"
+                android:layout_gravity="right"
+                android:layout_marginTop="210dp"
+                android:layout_marginRight="110dp"
+                android:rotation="13"
+                android:rotationX="55"
+                android:rotationY="0"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/carpet1" />
+
+            <!-- 소파 이미지 (초기 비가시, 선택되면 보이게) -->
+            <ImageView
+                android:id="@+id/soapview"
+                android:layout_width="187dp"
+                android:layout_height="166dp"
+                android:layout_gravity="right"
+                android:layout_marginTop="155dp"
+                android:layout_marginRight="60dp"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/sopa1" />
+
+
+
+            <ImageView
+                android:id="@+id/wallhangerview"
+                android:layout_width="131dp"
+                android:layout_height="83dp"
+                android:layout_gravity="right"
+                android:layout_marginTop="85dp"
+                android:layout_marginRight="50dp"
+
+                android:rotationX="0"
+                android:rotationY="-13"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/wallhager1" />
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
 </LinearLayout>
 

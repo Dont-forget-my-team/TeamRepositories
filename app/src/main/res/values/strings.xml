@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">gamepractice</string>
+    <string-array name="expense_categories">
+        <item>식비</item>
+        <item>교통비</item>
+        <item>문화/여가</item>
+        <item>쇼핑</item>
+        <item>기타</item>
+    </string-array>
 </resources>

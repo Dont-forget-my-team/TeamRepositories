@@ -57,12 +57,18 @@ android:layout_margin="16dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="371dp"
+        android:layout_height="510dp"
 
         app:cardCornerRadius="30dp"
         app:cardElevation="0dp"
         app:cardPreventCornerOverlap="false"
         android:layout_margin="8dp">
+
+        <include
+            layout="@layout/activity_calendar_source"
+            android:id="@+id/calendarContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
 
     </androidx.cardview.widget.CardView>
