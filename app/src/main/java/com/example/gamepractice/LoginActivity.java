@@ -15,9 +15,17 @@ public class LoginActivity extends AppCompatActivity {
     EditText editTextEmail, editTextPassword;
     Button buttonLogin;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // 로그인 상태 초기화 (테스트용)
+        SharedPreferences.Editor testEditor = getSharedPreferences("MyPrefs", MODE_PRIVATE).edit();
+        testEditor.remove("isLoggedIn"); // 또는 testEditor.putBoolean("isLoggedIn", false);
+        testEditor.apply();
+
 
         // 🔒 로그인한 적이 있다면 바로 GameActivity로 이동
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
