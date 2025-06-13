@@ -387,24 +387,39 @@ public class StyleSlide3Fragment extends Fragment {
     }
     //파일 업데이트(수정)
     private void updateExpenseFile() {
-        // 모든 달력 데이터에서 expense를 모아 새로 파일 작성
-        List<CalendarDate> allDates = currentDates; // 현재 달만 적용, 더 넓은 범위 원하면 전부 모아야 함
-        StringBuilder sb = new StringBuilder();
+        // 1. 파일에 저장된 기존 모든 내역 불러오기
+        List<ExpenseRecord> allRecords = loadExpensesFromFile();
+
+        // 2. 현재 달(currentDates)의 변경사항을 allRecords에 반영
         int y = currentCalendar.get(Calendar.YEAR);
         int m = currentCalendar.get(Calendar.MONTH) + 1;
-        for (CalendarDate date : allDates) {
+
+        // (1) 현재 달 기록 중복 삭제
+        allRecords.removeIf(rec -> rec.year == y && rec.month == m);
+
+        // (2) 현재 달의 최신 데이터 추가
+        for (CalendarDate date : currentDates) {
             if (!date.isCurrentMonth) continue;
             for (String entry : date.expensesWithCategory) {
                 String[] parts = entry.split(":");
                 if (parts.length != 2) continue;
                 String category = parts[0];
-                String amount = parts[1];
-                sb.append(y).append(",")
-                        .append(m).append(",")
-                        .append(date.day).append(",")
-                        .append(category).append(",")
-                        .append(amount).append("\n");
+                int amount = 0;
+                try {
+                    amount = Integer.parseInt(parts[1]);
+                } catch (NumberFormatException ignore) {}
+                allRecords.add(new ExpenseRecord(y, m, date.day, category, amount));
             }
+        }
+
+        // 3. 파일을 전체 새로 씀
+        StringBuilder sb = new StringBuilder();
+        for (ExpenseRecord rec : allRecords) {
+            sb.append(rec.year).append(",")
+                    .append(rec.month).append(",")
+                    .append(rec.day).append(",")
+                    .append(rec.category).append(",")
+                    .append(rec.amount).append("\n");
         }
         try (FileOutputStream fos = requireContext().openFileOutput("expenses.txt", Context.MODE_PRIVATE)) {
             fos.write(sb.toString().getBytes());
