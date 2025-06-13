@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:hint="목표금액"
+        android:hint="1주 목표금액"
         android:backgroundTint="@color/softviolet"
         android:inputType="textEmailAddress"
         android:textColor="#FFFFFF"

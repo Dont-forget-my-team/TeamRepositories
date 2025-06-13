@@ -1,6 +1,7 @@
 package com.example.gamepractice;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -19,6 +20,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -27,6 +32,7 @@ public class StyleSlide3Fragment extends Fragment {
     private RecyclerView calendarRecyclerView;
     private Button btnPrevMonth, btnNextMonth, btnInputTransaction;
     private Button btnShowExpenses;
+    private Button btnEditExpense;
     private TextView textYearMonth;
 
     private Calendar currentCalendar = Calendar.getInstance();
@@ -49,6 +55,7 @@ public class StyleSlide3Fragment extends Fragment {
         textYearMonth       = view.findViewById(R.id.textYearMonth);
         calendarRecyclerView= view.findViewById(R.id.recyclerViewCalendar);
         btnInputTransaction = view.findViewById(R.id.btnInputTransaction);
+        btnEditExpense = view.findViewById(R.id.btnEditExpense);
         btnShowExpenses     = view.findViewById(R.id.btnShowExpenses);
 
         // RecyclerView 레이아웃매니저
@@ -56,6 +63,7 @@ public class StyleSlide3Fragment extends Fragment {
 
         // 초기 버튼 비활성화
         btnInputTransaction.setEnabled(false);
+        btnEditExpense.setEnabled(false);
         btnShowExpenses.setEnabled(false);
 
         // 이전/다음 월 버튼 리스너
@@ -64,6 +72,7 @@ public class StyleSlide3Fragment extends Fragment {
 
         // 지출 입력 버튼 리스너
         btnInputTransaction.setOnClickListener(v -> showExpenseDialog());
+        btnEditExpense.setOnClickListener(v -> showEditExpenseDialog());
         btnShowExpenses.setOnClickListener(v -> showAllExpensesDialog());
 
         // 3) 캘린더뷰 최초 갱신
@@ -81,7 +90,7 @@ public class StyleSlide3Fragment extends Fragment {
         btnInputTransaction.setEnabled(false);
         btnShowExpenses.setEnabled(false);
     }
-
+    //지출추가
     private void showExpenseDialog() {
         if (selectedPosition < 0) return;
         CalendarDate date = currentDates.get(selectedPosition);
@@ -120,12 +129,100 @@ public class StyleSlide3Fragment extends Fragment {
 
                         // 달력 셀의 합계 텍스트 갱신
                         calendarRecyclerView.getAdapter().notifyItemChanged(selectedPosition);
+                        saveExpenseToFile(
+                                currentCalendar.get(Calendar.YEAR),
+                                currentCalendar.get(Calendar.MONTH) + 1,
+                                date.day,
+                                category,
+                                amt
+                        );
                     }
                 })
                 .setNegativeButton("취소", null)
                 .show();
     }
+    //지출 수정하기
+    private void showEditExpenseDialog() {
+        if (selectedPosition < 0) return;
+        CalendarDate date = currentDates.get(selectedPosition);
+        List<String> list = date.expensesWithCategory;
 
+        if (list.isEmpty()) {
+            new AlertDialog.Builder(requireContext())
+                    .setTitle(date.day + "일 지출내역 수정")
+                    .setMessage("수정할 내역이 없습니다.")
+                    .setPositiveButton("확인", null)
+                    .show();
+            return;
+        }
+
+        String[] items = list.toArray(new String[0]);
+        new AlertDialog.Builder(requireContext())
+                .setTitle(date.day + "일 지출내역 선택")
+                .setItems(items, (dialog, which) -> {
+                    // which: 선택한 항목 인덱스
+                    String selected = list.get(which);
+                    String[] parts = selected.split(":");
+                    String oldCategory = parts[0];
+                    String oldAmount = (parts.length > 1) ? parts[1] : "";
+
+                    // 수정/삭제 다이얼로그
+                    LinearLayout layout = new LinearLayout(requireContext());
+                    layout.setOrientation(LinearLayout.VERTICAL);
+                    layout.setPadding(50, 20, 50, 20);
+
+                    // 카테고리 스피너
+                    Spinner spinner = new Spinner(requireContext());
+                    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                            requireContext(),
+                            R.array.expense_categories,
+                            android.R.layout.simple_spinner_item
+                    );
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(adapter);
+
+                    // 기존 카테고리 설정
+                    int catIdx = adapter.getPosition(oldCategory);
+                    if (catIdx >= 0) spinner.setSelection(catIdx);
+
+                    layout.addView(spinner);
+
+                    // 금액 EditText
+                    EditText amountEdit = new EditText(requireContext());
+                    amountEdit.setHint("지출 금액 (숫자만)");
+                    amountEdit.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    amountEdit.setText(oldAmount);
+                    layout.addView(amountEdit);
+
+                    new AlertDialog.Builder(requireContext())
+                            .setTitle("수정/삭제")
+                            .setView(layout)
+                            .setPositiveButton("수정", (d, w) -> {
+                                String newCategory = (String) spinner.getSelectedItem();
+                                String newAmountStr = amountEdit.getText().toString().trim();
+                                if (!newAmountStr.isEmpty()) {
+                                    int newAmount = Integer.parseInt(newAmountStr);
+
+                                    // 리스트에서 값 수정
+                                    list.set(which, newCategory + ":" + newAmount);
+                                    // 파일 내용 갱신
+                                    updateExpenseFile();
+                                    calendarRecyclerView.getAdapter().notifyItemChanged(selectedPosition);
+                                }
+                            })
+                            .setNegativeButton("취소", null)
+                            .setNeutralButton("삭제", (d, w) -> {
+                                // 리스트에서 삭제
+                                list.remove(which);
+                                updateExpenseFile();
+                                calendarRecyclerView.getAdapter().notifyItemChanged(selectedPosition);
+                            })
+                            .show();
+                })
+                .setNegativeButton("닫기", null)
+                .show();
+    }
+    //지출내역 보기
     private void showAllExpensesDialog() {
         // 전체 달력의 모든 날짜에서 “expensesWithCategory”를 모아서
         // 날짜별로 구분하여 보여주도록 할 수 있지만, 여기서는 예시로
@@ -180,6 +277,7 @@ public class StyleSlide3Fragment extends Fragment {
                 .setPositiveButton("확인", null)
                 .show();
     }
+    //업데이트 캘린더
     private void updateCalendarView() {
         // 년/월 표시
         textYearMonth.setText(
@@ -189,6 +287,21 @@ public class StyleSlide3Fragment extends Fragment {
 
         // 날짜 리스트 생성
         currentDates = generateDates(currentCalendar);
+        // 파일에서 전체 내역 불러오기
+        List<ExpenseRecord> allRecords = loadExpensesFromFile();
+        // 현재 달의 내역만 달력 데이터에 추가
+        int y = currentCalendar.get(Calendar.YEAR);
+        int m = currentCalendar.get(Calendar.MONTH) + 1;
+        for (CalendarDate d : currentDates) {
+            d.expensesWithCategory.clear(); // 매번 리셋
+            if (d.isCurrentMonth) {
+                for (ExpenseRecord rec : allRecords) {
+                    if (rec.year == y && rec.month == m && rec.day == d.day) {
+                        d.expensesWithCategory.add(rec.category + ":" + rec.amount);
+                    }
+                }
+            }
+        }
 
         // CalendarAdapter 초기화
         CalendarAdapter adapter = new CalendarAdapter(
@@ -206,13 +319,83 @@ public class StyleSlide3Fragment extends Fragment {
                     selectedPosition = position;
 
                     btnInputTransaction.setEnabled(true);
+                    btnEditExpense.setEnabled(true);
                     btnShowExpenses.setEnabled(true);
                 }
         );
         calendarRecyclerView.setAdapter(adapter);
     }
+    //데이터를 파일에 저장
+    private void saveExpenseToFile(int year, int month, int day, String category, int amount) {
+        String record = year + "," + month + "," + day + "," + category + "," + amount + "\n";
+        try (FileOutputStream fos = requireContext().openFileOutput("expenses.txt", Context.MODE_APPEND)) {
+            fos.write(record.getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    //파일 업데이트(수정)
+    private void updateExpenseFile() {
+        // 모든 달력 데이터에서 expense를 모아 새로 파일 작성
+        List<CalendarDate> allDates = currentDates; // 현재 달만 적용, 더 넓은 범위 원하면 전부 모아야 함
+        StringBuilder sb = new StringBuilder();
+        int y = currentCalendar.get(Calendar.YEAR);
+        int m = currentCalendar.get(Calendar.MONTH) + 1;
+        for (CalendarDate date : allDates) {
+            if (!date.isCurrentMonth) continue;
+            for (String entry : date.expensesWithCategory) {
+                String[] parts = entry.split(":");
+                if (parts.length != 2) continue;
+                String category = parts[0];
+                String amount = parts[1];
+                sb.append(y).append(",")
+                        .append(m).append(",")
+                        .append(date.day).append(",")
+                        .append(category).append(",")
+                        .append(amount).append("\n");
+            }
+        }
+        try (FileOutputStream fos = requireContext().openFileOutput("expenses.txt", Context.MODE_PRIVATE)) {
+            fos.write(sb.toString().getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    //파일 불러오기(앱 실행시)
+    private List<ExpenseRecord> loadExpensesFromFile() {
+        List<ExpenseRecord> result = new ArrayList<>();
+        File file = new File(requireContext().getFilesDir(), "expenses.txt");
+        if (!file.exists()) return result;
 
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length != 5) continue;
+                int year = Integer.parseInt(parts[0]);
+                int month = Integer.parseInt(parts[1]);
+                int day = Integer.parseInt(parts[2]);
+                String category = parts[3];
+                int amount = Integer.parseInt(parts[4]);
+                result.add(new ExpenseRecord(year, month, day, category, amount));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
+    public static class ExpenseRecord {
+        public int year, month, day, amount;
+        public String category;
+        public ExpenseRecord(int year, int month, int day, String category, int amount) {
+            this.year = year;
+            this.month = month;
+            this.day = day;
+            this.category = category;
+            this.amount = amount;
+        }
+    }
 
     private List<CalendarDate> generateDates(Calendar base) {
         List<CalendarDate> dates = new ArrayList<>();
