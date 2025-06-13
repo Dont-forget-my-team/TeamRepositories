@@ -64,8 +64,8 @@
     </LinearLayout>
 
     <FrameLayout
-        android:layout_width="390dp"
-        android:layout_height="395dp"
+        android:layout_width="394dp"
+        android:layout_height="387dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
@@ -82,25 +82,27 @@
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pieChart"
-                android:layout_width="356dp"
-                android:layout_height="345dp"
-                android:layout_gravity="center" />
+                android:layout_width="346dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center" >
+
+                <TextView
+                    android:id="@+id/overlayText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|center"
+                    android:layout_marginTop="24dp"
+                    android:shadowColor="#66000000"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="4"
+                    android:text="0월 소비 비율"
+                    android:textColor="@android:color/black"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+            </com.github.mikephil.charting.charts.PieChart>
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/overlayText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|center"
-            android:layout_marginTop="24dp"
-            android:shadowColor="#66000000"
-            android:shadowDx="2"
-            android:shadowDy="2"
-            android:shadowRadius="4"
-            android:text="0월 소비 비율"
-            android:textColor="@android:color/black"
-            android:textSize="30sp"
-            android:textStyle="bold" />
     </FrameLayout>
 
     <!-- PieChart 아래 랭킹 표시 -->
@@ -120,7 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:text="Chart Rankings"
+            android:text="소비 순위"
             android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
