@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,7 +34,11 @@ import java.util.Map;
 public class StyleSlide4Fragment extends Fragment {
 
     private PieChart pieChart;
-    private TextView rank1, rank2, rank3;
+    private TextView rank1, rank2, rank3, overlayText;
+    private Spinner monthSpinner;
+
+    private int selectedYear;
+    private int selectedMonth; // 1~12
 
     @Nullable
     @Override
@@ -41,25 +48,48 @@ public class StyleSlide4Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_style_slide4, container, false);
 
         pieChart = view.findViewById(R.id.pieChart);
-
         rank1 = view.findViewById(R.id.rank1);
         rank2 = view.findViewById(R.id.rank2);
         rank3 = view.findViewById(R.id.rank3);
+        overlayText = view.findViewById(R.id.overlayText);
+        monthSpinner = view.findViewById(R.id.monthSpinner);
 
         pieChart.setExtraOffsets(10f, 10f, 10f, 10f);
 
-        setupDonutChartAndRanking();
+        Calendar now = Calendar.getInstance();
+        selectedYear = now.get(Calendar.YEAR);
+        selectedMonth = now.get(Calendar.MONTH) + 1;
+
+        // 1~12월 Spinner 세팅
+        List<String> months = new ArrayList<>();
+        for (int i = 1; i <= 12; i++) {
+            months.add(i + "월");
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_spinner_item, months);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        monthSpinner.setAdapter(adapter);
+        monthSpinner.setSelection(selectedMonth - 1);
+
+        monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+                selectedMonth = position + 1;
+                overlayText.setText(selectedMonth + "월 소비 비율");
+                setupDonutChartAndRanking(selectedYear, selectedMonth);
+            }
+            @Override public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        // 초기화 (앱 진입 시 현재월)
+        overlayText.setText(selectedMonth + "월 소비 비율");
+        setupDonutChartAndRanking(selectedYear, selectedMonth);
 
         return view;
     }
 
-    /** expenses.txt에서 데이터 읽어 차트 + 상위3 랭킹 표시 */
-    private void setupDonutChartAndRanking() {
+    private void setupDonutChartAndRanking(int year, int month) {
         Map<String, Float> categorySums = new LinkedHashMap<>();
-        Calendar now = Calendar.getInstance();
-        int year = now.get(Calendar.YEAR);
-        int month = now.get(Calendar.MONTH) + 1;
-
         File file = new File(requireContext().getFilesDir(), "expenses.txt");
         if (file.exists()) {
             try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -69,7 +99,6 @@ public class StyleSlide4Fragment extends Fragment {
                     if (parts.length != 5) continue;
                     int y = Integer.parseInt(parts[0].trim());
                     int m = Integer.parseInt(parts[1].trim());
-                    int d = Integer.parseInt(parts[2].trim());
                     String category = parts[3].trim();
                     float amount = Float.parseFloat(parts[4].trim());
                     if (y == year && m == month) {
@@ -91,7 +120,6 @@ public class StyleSlide4Fragment extends Fragment {
             entries.add(new PieEntry(1f, "지출 없음"));
         }
 
-        // PieDataSet 및 색상 (colors.xml에서 필요한 만큼 색상 추가)
         int[] colors = {
                 ContextCompat.getColor(requireContext(), R.color.purple),
                 ContextCompat.getColor(requireContext(), R.color.violet),
@@ -131,13 +159,12 @@ public class StyleSlide4Fragment extends Fragment {
 
         pieChart.invalidate();
 
-        // ----------- 랭킹 텍스트뷰 동적 표시 (Comparator 명시적 사용) -------------
+        // ----------- 랭킹 표시 -------------
         List<Map.Entry<String, Float>> sorted = new ArrayList<>(categorySums.entrySet());
         sorted.sort(new Comparator<Map.Entry<String, Float>>() {
             @Override
             public int compare(Map.Entry<String, Float> a, Map.Entry<String, Float> b) {
-                // 내림차순 (많은 금액이 먼저)
-                return Float.compare(b.getValue(), a.getValue());
+                return Float.compare(b.getValue(), a.getValue()); // 내림차순
             }
         });
 
