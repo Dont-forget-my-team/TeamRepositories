@@ -111,26 +111,27 @@ public class StyleSlide4Fragment extends Fragment {
             }
         }
 
-        // PieEntry 리스트 생성 (카테고리 수만큼)
+        // ---- 카테고리별 색상 지정 ----
+        Map<String, Integer> colorMap = new LinkedHashMap<>();
+        colorMap.put("식비", ContextCompat.getColor(requireContext(), R.color.purple));
+        colorMap.put("교통비", ContextCompat.getColor(requireContext(), R.color.violet));
+        colorMap.put("기타", ContextCompat.getColor(requireContext(), R.color.softviolet));
+        colorMap.put("문화/여가", ContextCompat.getColor(requireContext(), R.color.blue));
+        colorMap.put("쇼핑", ContextCompat.getColor(requireContext(), R.color.yellow));
+
+        // PieEntry/ColorList 동기화
         List<PieEntry> entries = new ArrayList<>();
+        List<Integer> colorList = new ArrayList<>();
         for (Map.Entry<String, Float> e : categorySums.entrySet()) {
             entries.add(new PieEntry(e.getValue(), e.getKey()));
+            colorList.add(colorMap.getOrDefault(e.getKey(),
+                    ContextCompat.getColor(requireContext(), R.color.purple))); // 없는 건 보라색
         }
         if (entries.isEmpty()) {
             entries.add(new PieEntry(1f, "지출 없음"));
+            colorList.add(ContextCompat.getColor(requireContext(), R.color.purple));
         }
 
-        int[] colors = {
-                ContextCompat.getColor(requireContext(), R.color.purple),
-                ContextCompat.getColor(requireContext(), R.color.violet),
-                ContextCompat.getColor(requireContext(), R.color.softviolet),
-                ContextCompat.getColor(requireContext(), R.color.blue),
-                ContextCompat.getColor(requireContext(), R.color.yellow),
-        };
-        List<Integer> colorList = new ArrayList<>();
-        for (int i = 0; i < entries.size(); i++) {
-            colorList.add(colors[i % colors.length]);
-        }
         PieDataSet dataSet = new PieDataSet(entries, "");
         dataSet.setColors(colorList);
 
@@ -169,18 +170,19 @@ public class StyleSlide4Fragment extends Fragment {
         });
 
         if (sorted.size() > 0)
-            rank1.setText("1. " + sorted.get(0).getKey() + ": " + (int)(float)sorted.get(0).getValue());
+            rank1.setText("1. " + sorted.get(0).getKey() + ": " + (int)(float)sorted.get(0).getValue() + "원");
         else
-            rank1.setText("1. -");
+            rank1.setText("1. -원");
 
         if (sorted.size() > 1)
-            rank2.setText("2. " + sorted.get(1).getKey() + ": " + (int)(float)sorted.get(1).getValue());
+            rank2.setText("2. " + sorted.get(1).getKey() + ": " + (int)(float)sorted.get(1).getValue() + "원");
         else
-            rank2.setText("2. -");
+            rank2.setText("2. -원");
 
         if (sorted.size() > 2)
-            rank3.setText("3. " + sorted.get(2).getKey() + ": " + (int)(float)sorted.get(2).getValue());
+            rank3.setText("3. " + sorted.get(2).getKey() + ": " + (int)(float)sorted.get(2).getValue() + "원");
         else
-            rank3.setText("3. -");
+            rank3.setText("3. -원");
+
     }
 }
