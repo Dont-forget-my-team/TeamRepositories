@@ -91,6 +91,7 @@ public class StyleSlide3Fragment extends Fragment {
     private void resetSelection() {
         selectedPosition = -1;
         btnInputTransaction.setEnabled(false);
+        btnEditExpense.setEnabled(false);
         btnShowExpenses.setEnabled(false);
     }
     //매달 1일 점수 정산
