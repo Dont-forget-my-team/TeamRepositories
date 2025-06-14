@@ -79,7 +79,7 @@ public class StyleSlide3Fragment extends Fragment {
         // 3) 캘린더뷰 최초 갱신
         updateCalendarView();
         // 1일이면 자동 점수 정산
-        checkAndSaveMonthlyScore();
+        checkAndSaveWeeklyScore();
     }
 
     private void changeMonth(int offset) {
@@ -94,51 +94,49 @@ public class StyleSlide3Fragment extends Fragment {
         btnShowExpenses.setEnabled(false);
     }
     //매달 1일 점수 정산
-    private void checkAndSaveMonthlyScore() {
+    private void checkAndSaveWeeklyScore() {
         Calendar today = Calendar.getInstance();
-        int year = today.get(Calendar.YEAR);
-        int month = today.get(Calendar.MONTH) + 1;
-        int day = today.get(Calendar.DAY_OF_MONTH);
+        int dayOfWeek = today.get(Calendar.DAY_OF_WEEK);
+        if (dayOfWeek != Calendar.MONDAY) return; // 월요일만 정산
 
-        // 매달 1일만 실행
-        if (day != 1) return;
+        // 지난주 기간
+        Calendar lastMonday = (Calendar) today.clone();
+        lastMonday.add(Calendar.DATE, -7);
+        Calendar lastSunday = (Calendar) today.clone();
+        lastSunday.add(Calendar.DATE, -1);
 
+        // 지난주 주차
+        int year = lastMonday.get(Calendar.YEAR);
+        int week = lastMonday.get(Calendar.WEEK_OF_YEAR);
+
+        // 목표금액
         SharedPreferences prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
         int targetAmount = Integer.parseInt(prefs.getString("target_amount", "0"));
 
-        // 전월(이전 달) 구하기
-        Calendar prevMonth = (Calendar) today.clone();
-        prevMonth.add(Calendar.MONTH, -1);
-        int prevYear = prevMonth.get(Calendar.YEAR);
-        int prevMon = prevMonth.get(Calendar.MONTH) + 1;
+        // 지난주 지출 합계
+        int sum = 0;
+        List<ExpenseRecord> allRecords = loadExpensesFromFile();
+        for (ExpenseRecord rec : allRecords) {
+            Calendar c = Calendar.getInstance();
+            c.set(rec.year, rec.month - 1, rec.day);
+            if (!c.before(lastMonday) && !c.after(lastSunday)) {
+                sum += rec.amount;
+            }
+        }
 
-        // 전월 전체 지출 합계
-        int sum = getMonthExpenseSum(prevYear, prevMon);
-
+        // 점수 계산
         int score = 0;
         if (sum <= targetAmount && targetAmount > 0) {
             score = (int)(((targetAmount - sum) * 1000.0) / targetAmount);
         }
 
-        // 파일에 저장 (이어쓰기)
-        String record = prevYear + "," + prevMon + "," + score + "\n";
+        // 파일에 기록
+        String record = year + "," + week + "," + score + "\n";
         try (FileOutputStream fos = requireContext().openFileOutput("score.txt", Context.MODE_APPEND)) {
             fos.write(record.getBytes());
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    // 해당 월 전체 지출 합계 계산
-    private int getMonthExpenseSum(int year, int month) {
-        List<ExpenseRecord> allRecords = loadExpensesFromFile();
-        int sum = 0;
-        for (ExpenseRecord rec : allRecords) {
-            if (rec.year == year && rec.month == month) {
-                sum += rec.amount;
-            }
-        }
-        return sum;
     }
 
     //지출추가
