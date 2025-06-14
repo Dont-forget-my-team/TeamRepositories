@@ -2,6 +2,7 @@ package com.example.gamepractice;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 public class SharedPreferencesActivity {
     private static final String PREF_NAME = "GamePrefs";
@@ -13,12 +14,15 @@ public class SharedPreferencesActivity {
     private static final String KEY_SELECTED_CARPET_STYLE = "selected_carpet_style";
     private static final String KEY_SELECTED_WALLHANGER_STYLE = "selected_wallhanger_style";
 
+
+
     // ✅ 테스트 초기화
     public static void resetForTesting(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
         editor.putInt(KEY_COINS, 500);
+
 
         // 각 아이템 구매 초기화
         editor.putBoolean("window_design_1", false);

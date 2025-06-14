@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,11 +64,23 @@ public class StyleSlide2Fragment extends Fragment {
         }
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        coinText = requireActivity().findViewById(R.id.coinText);
+        Log.d("CoinsDebug", "onViewCreated() - coinText is null? " + (coinText == null));
+
+        currentCoins = SharedPreferencesActivity.loadCoins(requireContext());
+        //updateCoinText();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        Log.d("CoinsDebug", "코인 불러오기 시점: " + SharedPreferencesActivity.loadCoins(requireContext()));
 
         viewModel = new ViewModelProvider(requireActivity()).get(StyleViewModel.class);
 
@@ -75,7 +88,7 @@ public class StyleSlide2Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_style_slide2, container, false);
 
         // ✅ 테스트용 초기화: 코인, 구매 상태, 선택 스타일 리셋
-        SharedPreferencesActivity.resetForTesting(requireContext());
+         SharedPreferencesActivity.resetForTesting(requireContext());
 
         // 기본 UI 초기화
         editWindowIcon = view.findViewById(R.id.editWindowIcon);
@@ -101,8 +114,8 @@ public class StyleSlide2Fragment extends Fragment {
         pointDeductedText = requireActivity().findViewById(R.id.pointDeductedText);
 
         // 초기 코인 불러오기 (500으로 리셋된 상태)
-        currentCoins = SharedPreferencesActivity.loadCoins(requireContext());
-        updateCoinText();
+       // currentCoins = SharedPreferencesActivity.loadCoins(requireContext());
+        //updateCoinText();
 
         editWindowIcon.setOnClickListener(v -> toggleStyleBar());
 
@@ -267,7 +280,12 @@ public class StyleSlide2Fragment extends Fragment {
                     currentCoins -= cost;
                     SharedPreferencesActivity.saveCoins(context, currentCoins);
                     SharedPreferencesActivity.savePurchase(context, itemKey, true);
-                    updateCoinText();
+
+                    // ⭐ 코인 텍스트 갱신 호출
+                    if (getActivity() instanceof GameActivity) {
+                        ((GameActivity) getActivity()).updateCoinTextFromActivity(currentCoins);
+                    }
+                    //updateCoinText();
 
                     if (isWindow) {
                         SharedPreferencesActivity.saveSelectedWindowStyle(context, itemKey);
@@ -401,9 +419,9 @@ public class StyleSlide2Fragment extends Fragment {
 
 
 
-    private void updateCoinText() {
-        coinText.setText("★ " + currentCoins);
-    }
+   // private void updateCoinText() {
+       // coinText.setText("★ " + currentCoins);
+    //}
 
     private void showPointChange(TextView textView, String text) {
         textView.setText(text);
@@ -421,7 +439,12 @@ public class StyleSlide2Fragment extends Fragment {
     public void addCoins(int amount) {
         currentCoins += amount;
         SharedPreferencesActivity.saveCoins(requireContext(), currentCoins);
-        updateCoinText();
+
+        // 🔄 Activity를 통해 coinText 업데이트
+        if (getActivity() instanceof GameActivity) {
+            ((GameActivity) getActivity()).updateCoinTextFromActivity(currentCoins);
+        }
+
         showPointChange(pointAddedText, "+" + amount);
     }
 }

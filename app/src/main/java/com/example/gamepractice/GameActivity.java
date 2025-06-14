@@ -120,5 +120,14 @@ public class GameActivity extends AppCompatActivity implements  StyleSlide2Fragm
         nextButton.setEnabled(enabled);
     }
 
+    public void updateCoinTextFromActivity(int currentCoins) {
+        TextView coinText = findViewById(R.id.coinText);
+        if (coinText != null) {
+            coinText.setText("★ " + currentCoins);
+            Log.d("CoinsDebug", "✅ GameActivity에서 코인 텍스트 업데이트됨: " + currentCoins);
+        } else {
+            Log.d("CoinsDebug", "❌ coinText is NULL in GameActivity");
+        }
+    }
 }
 
